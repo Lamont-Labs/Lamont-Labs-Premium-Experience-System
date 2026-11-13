@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "status": "candidate_catalog_not_license_audited",
+  "integration_policy": "Prefer reference or pinned dependency; vendor only after legal and provenance review.",
+  "resources": [
+    {
+      "id": "ui-ux-pro-max",
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "category": "design-intelligence",
+      "mode": "reference",
+      "priority": "P0"
+    },
+    {
+      "id": "impeccable",
+      "url": "https://github.com/pbakaus/impeccable",
+      "category": "design-intelligence",
+      "mode": "reference",
+      "priority": "P0"
+    },
+    {
+      "id": "now-in-android",
+      "url": "https://github.com/android/nowinandroid",
+      "category": "android",
+      "mode": "reference",
+      "priority": "P0"
+    },
+    {
+      "id": "compose-samples",
+      "url": "https://github.com/android/compose-samples",
+      "category": "android",
+      "mode": "reference",
+      "priority": "P0"
+    },
+    {
+      "id": "compose-unstyled",
+      "url": "https://github.com/composablehorizons/compose-unstyled",
+      "category": "android",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "haze",
+      "url": "https://github.com/chrisbanes/haze",
+      "category": "android-effects",
+      "mode": "dependency",
+      "priority": "P1"
+    },
+    {
+      "id": "coil",
+      "url": "https://github.com/coil-kt/coil",
+      "category": "android-images",
+      "mode": "dependency",
+      "priority": "P1"
+    },
+    {
+      "id": "roborazzi",
+      "url": "https://github.com/takahirom/roborazzi",
+      "category": "android-testing",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "paparazzi",
+      "url": "https://github.com/cashapp/paparazzi",
+      "category": "android-testing",
+      "mode": "reference",
+      "priority": "P1"
+    },
+    {
+      "id": "maestro",
+      "url": "https://github.com/mobile-dev-inc/Maestro",
+      "category": "mobile-testing",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "shadcn-ui",
+      "url": "https://github.com/shadcn-ui/ui",
+      "category": "web-components",
+      "mode": "candidate-vendor",
+      "priority": "P0"
+    },
+    {
+      "id": "radix",
+      "url": "https://github.com/radix-ui/primitives",
+      "category": "web-components",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "react-aria",
+      "url": "https://github.com/adobe/react-spectrum",
+      "category": "web-components",
+      "mode": "reference",
+      "priority": "P1"
+    },
+    {
+      "id": "storybook",
+      "url": "https://github.com/storybookjs/storybook",
+      "category": "web-testing",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "playwright",
+      "url": "https://github.com/microsoft/playwright",
+      "category": "web-testing",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "axe-core",
+      "url": "https://github.com/dequelabs/axe-core",
+      "category": "accessibility",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "style-dictionary",
+      "url": "https://github.com/amzn/style-dictionary",
+      "category": "design-tokens",
+      "mode": "dependency",
+      "priority": "P0"
+    },
+    {
+      "id": "lucide",
+      "url": "https://github.com/lucide-icons/lucide",
+      "category": "icons",
+      "mode": "dependency",
+      "priority": "P1"
+    },
+    {
+      "id": "motion",
+      "url": "https://github.com/motiondivision/motion",
+      "category": "web-motion",
+      "mode": "dependency",
+      "priority": "P1"
+    },
+    {
+      "id": "renovate",
+      "url": "https://github.com/renovatebot/renovate",
+      "category": "maintenance",
+      "mode": "reference",
+      "priority": "P1"
+    },
+    {
+      "id": "osv-scanner",
+      "url": "https://github.com/google/osv-scanner",
+      "category": "security",
+      "mode": "dependency",
+      "priority": "P1"
+    },
+    {
+      "id": "syft",
+      "url": "https://github.com/anchore/syft",
+      "category": "provenance",
+      "mode": "dependency",
+      "priority": "P1"
+    }
+  ]
+}
