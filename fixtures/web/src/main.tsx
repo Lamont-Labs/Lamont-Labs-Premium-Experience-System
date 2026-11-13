@@ -8,6 +8,7 @@ import { GlassSurface } from "./components/GlassSurface";
 import { AdaptiveSplit } from "./components/AdaptiveSplit";
 import { DisclosurePanel } from "./components/DisclosurePanel";
 import { WorkspaceShell } from "./components/WorkspaceShell";
+import { MetricStrip } from "./components/MetricStrip";
 import "./style.css";
 
 function Fixture() {
@@ -28,6 +29,10 @@ function Fixture() {
       current={current}
       onSelect={setCurrent}
     />
+    <MetricStrip label="Fixture metrics" metrics={[
+      { id: "attempts", label: "Recorded attempts", value: <output data-testid="metric-attempts">{count}</output>, detail: "Current fixture session" },
+      { id: "destination", label: "Selected destination", value: current, detail: "Navigation state" }
+    ]} />
     <WorkspaceShell
       title="Workspace preview"
       summary="Focused content without a long stack of sections"
