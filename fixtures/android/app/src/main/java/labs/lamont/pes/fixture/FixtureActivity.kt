@@ -12,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import labs.lamont.pes.samples.CompactWorkspace
+import labs.lamont.pes.samples.WorkspaceView
 import labs.lamont.pes.samples.LowProfileNavigation
 import labs.lamont.pes.samples.PremiumDestination
 import labs.lamont.pes.samples.DisclosurePanel
@@ -24,7 +26,8 @@ class FixtureActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 val count = remember { mutableIntStateOf(0) }
-                val selected = androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf("court") }
+                val selected = remember { androidx.compose.runtime.mutableStateOf("court") }
+                val workspaceView = remember { androidx.compose.runtime.mutableStateOf("overview") }
                 PremiumSurface(
                     colors = labs.lamont.pes.samples.PremiumSurfaceColors(
                         background = Color(0xFF181A20),
@@ -48,6 +51,20 @@ class FixtureActivity : ComponentActivity() {
                             selectedBackground = Color(0xFF343943),
                             icon = { Text("•") }
                         )
+                        CompactWorkspace(
+                            title = "Workspace preview",
+                            views = listOf(
+                                WorkspaceView("overview", "Overview"),
+                                WorkspaceView("history", "History"),
+                                WorkspaceView("details", "Details")
+                            ),
+                            selectedId = workspaceView.value,
+                            onSelect = { workspaceView.value = it },
+                            background = Color(0xFF181A20),
+                            foreground = Color.White,
+                            selectedBackground = Color(0xFF343943),
+                            summary = { Text("Focused content without stacked sections") }
+                        ) { view -> Text("Selected view: ${view.label}") }
                         Text("Attempts: ${count.intValue}")
                         DisclosurePanel(title = "Additional information") {
                             Text("Optional evidence and advanced context.")
