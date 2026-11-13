@@ -1,0 +1,28 @@
+name: Actions diagnostic
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Show execution context
+        run: |
+          echo "GitHub Actions execution is enabled"
+          echo "Event: ${{ github.event_name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit: ${{ github.sha }}"
+      - name: Verify repository checkout
+        uses: actions/checkout@v4
+      - name: Check required workflow files
+        run: |
+          test -f .github/workflows/resource-contracts.yml
+          test -f .github/workflows/web-fixture.yml
+          test -f .github/workflows/android-fixture.yml
+          echo "All expected workflows exist"
