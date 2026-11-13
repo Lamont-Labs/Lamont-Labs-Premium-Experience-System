@@ -6,6 +6,7 @@ import { PremiumAction } from "./components/PremiumAction";
 import { CompactNavigation } from "./components/CompactNavigation";
 import { GlassSurface } from "./components/GlassSurface";
 import { AdaptiveSplit } from "./components/AdaptiveSplit";
+import { DisclosurePanel } from "./components/DisclosurePanel";
 import "./style.css";
 
 function Fixture() {
@@ -41,6 +42,7 @@ function Fixture() {
         foreground: "#fff", solidFallback: "#242936"
       }}>
         <h2>Details</h2><p>Visual glass fallback and adaptive detail panel.</p>
+        <DisclosurePanel title="Additional information"><p>Optional evidence and advanced context.</p></DisclosurePanel>
       </GlassSurface>}
     />
   </div>;
