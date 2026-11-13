@@ -1,0 +1,11 @@
+.pes-surface {
+  color: var(--pes-foreground);
+  background: var(--pes-background);
+  border: 1px solid var(--pes-border);
+  border-radius: var(--pes-radius, 20px);
+  padding: 1rem;
+  min-width: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pes-surface { scroll-behavior: auto; }
+}
