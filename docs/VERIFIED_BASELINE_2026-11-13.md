@@ -28,3 +28,16 @@ This repository is a reusable design and implementation resource collection, not
 2. Run the target app's own unit, compilation, accessibility, visual and device verification.
 3. Treat these fixture runs as library smoke evidence, not release certification.
 4. Never mark an application release verified solely from this repository's green checks.
+
+## Expanded web navigation and workspace verification
+- Passing run: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/actions/runs/43515171143
+- Source commit: `7eecba723ac1fa172d6485944f4117724d0f81ba`
+- Verified: TypeScript typecheck, Vite build, Playwright browser tests, evidence artifact upload, automatic closure of failure issue #5.
+- Covered by committed fixture tests: compact navigation at 320px, overflow destination selection, keyboard activation, large-text scaling, disclosure interaction, workspace view switching, and workspace keyboard activation.
+- Historical failure issue: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/issues/5 (closed after successful verification).
+- Limitation: passing tests do not establish production-app integration, screen-reader certification, or exhaustive browser/device coverage.
+
+## Pending native Android workspace verification
+- The original Android passing run above predates `LowProfileNavigation.kt` and `CompactWorkspace.kt`.
+- A fresh workflow trigger was committed as `3948a8885c1683543201398e5cd91bba9758b05b`.
+- Do not describe these newer Android components as compile-verified until the corresponding run is inspected.
