@@ -7,11 +7,13 @@ import { CompactNavigation } from "./components/CompactNavigation";
 import { GlassSurface } from "./components/GlassSurface";
 import { AdaptiveSplit } from "./components/AdaptiveSplit";
 import { DisclosurePanel } from "./components/DisclosurePanel";
+import { WorkspaceShell } from "./components/WorkspaceShell";
 import "./style.css";
 
 function Fixture() {
   const [current, setCurrent] = useState("court");
   const [count, setCount] = useState(0);
+  const [workspaceView, setWorkspaceView] = useState("overview");
   return <div className="app">
     <header><h1>LL-PES component fixture</h1><p>Brand-independent interaction and layout verification</p></header>
     <CompactNavigation
@@ -25,6 +27,17 @@ function Fixture() {
       ]}
       current={current}
       onSelect={setCurrent}
+    />
+    <WorkspaceShell
+      title="Workspace preview"
+      summary="Focused content without a long stack of sections"
+      tabs={[
+        { id: "overview", label: "Overview", content: <p>Session overview content</p> },
+        { id: "history", label: "History", content: <p>History content</p> },
+        { id: "details", label: "Details", content: <p>Details content</p> }
+      ]}
+      activeTab={workspaceView}
+      onTabChange={setWorkspaceView}
     />
     <AdaptiveSplit
       primary={<PremiumSurface tokens={{
