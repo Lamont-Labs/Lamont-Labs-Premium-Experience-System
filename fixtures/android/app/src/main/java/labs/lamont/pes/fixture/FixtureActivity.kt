@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import labs.lamont.pes.samples.DisclosurePanel
 import labs.lamont.pes.samples.PremiumAction
 import labs.lamont.pes.samples.PremiumSurface
 
@@ -32,6 +33,9 @@ class FixtureActivity : ComponentActivity() {
                     Column {
                         Text("LL-PES Android component fixture")
                         Text("Attempts: ${count.intValue}")
+                        DisclosurePanel(title = "Additional information") {
+                            Text("Optional evidence and advanced context.")
+                        }
                         PremiumAction(
                             label = "Record attempt",
                             onClick = { count.intValue += 1 },
