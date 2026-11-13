@@ -1,11 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { useState } from "react";
-import { PremiumSurface } from "../../../components/web/PremiumSurface";
-import { PremiumAction } from "../../../components/web/PremiumAction";
-import { CompactNavigation } from "../../../components/web/CompactNavigation";
-import { GlassSurface } from "../../../components/web/GlassSurface";
-import { AdaptiveSplit } from "../../../components/web/AdaptiveSplit";
+import { PremiumSurface } from "./components/PremiumSurface";
+import { PremiumAction } from "./components/PremiumAction";
+import { CompactNavigation } from "./components/CompactNavigation";
+import { GlassSurface } from "./components/GlassSurface";
+import { AdaptiveSplit } from "./components/AdaptiveSplit";
 import "./style.css";
 
 function Fixture() {
