@@ -1,0 +1,10 @@
+.pes-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  min-width: 0;
+}
+.pes-split__primary, .pes-split__secondary { min-width: 0; }
+@media (min-width: 880px) {
+  .pes-split { grid-template-columns: minmax(0, 1.8fr) minmax(18rem, 1fr); align-items: start; }
+}
