@@ -6,7 +6,9 @@
     "typecheck": "tsc --noEmit",
     "build": "vite build",
     "test": "playwright test",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pretypecheck": "node scripts/stage-components.mjs",
+    "prebuild": "node scripts/stage-components.mjs"
   },
   "dependencies": {
     "react": "19.2.0",
