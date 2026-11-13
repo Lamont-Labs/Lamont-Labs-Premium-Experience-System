@@ -1,0 +1,9 @@
+{
+  "name": "ll-pes-resource-toolkit",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Static contract checks for copyable premium app development resources",
+  "scripts": {
+    "test:contracts": "node --test tests/web/*.test.mjs"
+  }
+}
