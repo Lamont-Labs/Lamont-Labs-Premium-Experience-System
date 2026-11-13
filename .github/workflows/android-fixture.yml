@@ -81,3 +81,26 @@ jobs:
               });
               await github.rest.issues.update({ owner, repo, issue_number: existing.number, state: "closed" });
             }
+
+      - name: Publish Android verification receipt
+        if: success() && github.event_name != 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const title = "CI proof: Android Compose fixture";
+            const receipt = [
+              "Latest successful Android fixture build.",
+              "",
+              "Run: " + context.serverUrl + "/" + owner + "/" + repo + "/actions/runs/" + context.runId,
+              "Commit: " + context.sha,
+              "Job: Android Compose fixture compilation and artifact upload",
+              "Note: build proof only; no device-level verification"
+            ].join("\n");
+            const { data } = await github.rest.issues.listForRepo({ owner, repo, state: "open", per_page: 100 });
+            const existing = data.find(issue => issue.title === title && !issue.pull_request);
+            if (existing) {
+              await github.rest.issues.update({ owner, repo, issue_number: existing.number, body: receipt });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body: receipt });
+            }
