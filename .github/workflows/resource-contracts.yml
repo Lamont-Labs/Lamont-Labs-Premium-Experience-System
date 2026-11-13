@@ -1,0 +1,31 @@
+name: Resource contract checks
+
+on:
+  push:
+    paths:
+      - "components/web/**"
+      - "tests/web/**"
+      - "package.json"
+      - ".github/workflows/resource-contracts.yml"
+  pull_request:
+    paths:
+      - "components/web/**"
+      - "tests/web/**"
+      - "package.json"
+      - ".github/workflows/resource-contracts.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run source contract tests
+        run: npm run test:contracts
