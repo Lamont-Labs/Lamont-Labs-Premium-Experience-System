@@ -1,0 +1,28 @@
+.pes-action {
+  --pes-accent: #ff7b30;
+  --pes-on-accent: #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  min-height: 44px;
+  padding: .75rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  background: var(--pes-accent);
+  color: var(--pes-on-accent);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+.pes-action:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.pes-action:disabled { opacity: .6; cursor: not-allowed; }
+.pes-action__spinner {
+  width: 1rem; height: 1rem; border: 2px solid currentColor;
+  border-right-color: transparent; border-radius: 50%;
+  animation: pes-spin .7s linear infinite;
+}
+@keyframes pes-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .pes-action__spinner { animation-duration: 2s; }
+}
