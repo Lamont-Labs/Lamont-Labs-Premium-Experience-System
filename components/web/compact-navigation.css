@@ -4,6 +4,8 @@
   gap: .25rem;
   max-width: 100%;
   overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
   padding: .25rem;
   background: var(--pes-nav-bg, #14161b);
   border: 1px solid var(--pes-nav-border, #333840);
@@ -12,7 +14,7 @@
 .pes-nav__item {
   display: inline-flex;
   flex: 1 0 0;
-  min-width: 44px;
+  min-width: 64px;
   min-height: 48px;
   align-items: center;
   justify-content: center;
@@ -31,4 +33,11 @@
 .pes-nav__item:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
 .pes-nav__icon { display: flex; align-items: center; justify-content: center; }
 .pes-nav__label { font-size: .7rem; white-space: nowrap; }
-@media (max-width: 420px) { .pes-nav__label { display: none; } }
+@media (max-width: 420px) {
+  .pes-nav { gap: .125rem; padding: .1875rem; }
+  .pes-nav__item { min-width: 64px; padding-inline: .125rem; }
+  .pes-nav__label { display: block; font-size: .625rem; line-height: 1.2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pes-nav { scroll-behavior: auto; }
+}
