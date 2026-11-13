@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "product": "Example App",
+  "identity": {
+    "character": [
+      "precise",
+      "welcoming"
+    ],
+    "approved_assets": [],
+    "do_not_change": []
+  },
+  "platforms": [
+    "android"
+  ],
+  "design": {
+    "colors": {
+      "background": "#101114",
+      "surface": "#202228",
+      "primary": "#FF7B30",
+      "on_primary": "#111111",
+      "text": "#FFFFFF"
+    },
+    "typography": {
+      "scale": "platform-accessible"
+    },
+    "density": "compact"
+  },
+  "navigation": {
+    "primary_destinations": [
+      "Home",
+      "Activity",
+      "Profile"
+    ],
+    "persistent_workflows": []
+  },
+  "experience": {
+    "primary_journeys": [
+      "Open app → complete main task → verify saved result"
+    ],
+    "offline": "supported",
+    "reduced_motion": "respect-system"
+  },
+  "quality": {
+    "require_functional_tests": true,
+    "require_accessibility_review": true,
+    "require_visual_baselines": true
+  }
+}
