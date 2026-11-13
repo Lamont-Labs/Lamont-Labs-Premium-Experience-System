@@ -1,0 +1,25 @@
+.pes-glass {
+  color: var(--pes-glass-foreground);
+  background: var(--pes-glass-solid);
+  border: 1px solid var(--pes-glass-border);
+  border-radius: 1.25rem;
+  padding: 1rem;
+  min-width: 0;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .pes-glass {
+    background: var(--pes-glass-tint);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .pes-glass {
+    background: var(--pes-glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (forced-colors: active) {
+  .pes-glass { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+}
