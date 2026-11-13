@@ -21,6 +21,7 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
     buildFeatures { compose = true }
+    sourceSets.getByName("main").java.srcDir("../../../components/android")
 }
 
 dependencies {
