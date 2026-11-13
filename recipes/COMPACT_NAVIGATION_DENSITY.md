@@ -9,7 +9,7 @@ Copy `components/web/CompactNavigation.tsx` and `components/web/compact-navigati
 The reference navigation now keeps **both icons and labels visible** down to 320px. Items have a minimum 64px width and 48px height. If the destination count exceeds available width, the navigation scrolls horizontally instead of compressing targets or hiding labels. The current destination exposes `aria-current="page"`.
 
 ## Android implementation
-The existing `components/android/CompactNavigation.kt` is a Material 3 reference, **not** an equivalent height-optimized implementation. Its destination labels are conditional, so applications must evaluate label visibility and navigation item count independently. Do not claim identical behavior across platforms.
+Use `components/android/LowProfileNavigation.kt` for the low-profile labeled alternative. It keeps labels visible, uses 64dp minimum item width and 48dp minimum touch height, and scrolls horizontally for overflow. The caller supplies icons and selected route state. The original `CompactNavigation.kt` remains available as a standard Material 3 navigation reference. The new Android implementation is compile-tested by the fixture; device-level interaction and accessibility checks remain separate gates.
 
 ## Adoption rules
 - Keep 3–5 primary destinations where possible; move secondary tools to a separate More area.
