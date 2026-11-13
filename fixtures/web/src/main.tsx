@@ -18,7 +18,10 @@ function Fixture() {
       items={[
         { id: "court", label: "Court", icon: <span>◉</span> },
         { id: "training", label: "Training", icon: <span>◆</span> },
-        { id: "profile", label: "Profile", icon: <span>●</span> }
+        { id: "profile", label: "Profile", icon: <span>●</span> },
+        { id: "library", label: "Library", icon: <span>▣</span> },
+        { id: "stats", label: "Stats", icon: <span>▥</span> },
+        { id: "settings", label: "Settings", icon: <span>⚙</span> }
       ]}
       current={current}
       onSelect={setCurrent}
