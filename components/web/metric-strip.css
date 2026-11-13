@@ -1,0 +1,18 @@
+.pes-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+.pes-metrics__item {
+  min-width: 0;
+  border: 1px solid var(--pes-metric-border, #444a55);
+  border-radius: 14px;
+  background: var(--pes-metric-bg, #1b2029);
+  color: var(--pes-metric-text, #f6f7fa);
+  padding: 12px 14px;
+}
+.pes-metrics__label { font-size: .875em; opacity: .8; line-height: 1.35; }
+.pes-metrics__value { margin-top: 4px; font-size: clamp(1.125em, 2vw, 1.5em); font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.pes-metrics__detail { margin-top: 4px; font-size: .8125em; line-height: 1.35; opacity: .8; overflow-wrap: anywhere; }
+@media (forced-colors: active) { .pes-metrics__item { border: 1px solid CanvasText; } }
