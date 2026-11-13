@@ -1,0 +1,34 @@
+.pes-workspace {
+  min-width: 0;
+  color: var(--pes-workspace-text, #f6f7fa);
+  background: var(--pes-workspace-bg, #191c22);
+  border: 1px solid var(--pes-workspace-border, #454a54);
+  border-radius: 20px;
+  padding: clamp(12px, 2vw, 24px);
+  display: grid;
+  gap: 16px;
+}
+.pes-workspace__header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.pes-workspace__intro { min-width: 0; flex: 1 1 180px; }
+.pes-workspace__title { margin: 0; font-size: clamp(1.125rem, 2vw, 1.5rem); line-height: 1.25; }
+.pes-workspace__summary { margin-top: 6px; opacity: .82; }
+.pes-workspace__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.pes-workspace__tabs { display: flex; gap: 6px; overflow-x: auto; max-width: 100%; padding: 2px; }
+.pes-workspace__tab {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--pes-workspace-border, #454a54);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.pes-workspace__tab[aria-pressed="true"] {
+  background: var(--pes-workspace-selected, #343943);
+  border-color: var(--pes-workspace-active-border, #858e9d);
+}
+.pes-workspace__tab:focus-visible { outline: 3px solid var(--pes-workspace-focus, #ff9c50); outline-offset: 2px; }
+.pes-workspace__panel { min-width: 0; overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { .pes-workspace * { scroll-behavior: auto; } }
