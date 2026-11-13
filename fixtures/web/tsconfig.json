@@ -15,7 +15,6 @@
     "allowImportingTsExtensions": true
   },
   "include": [
-    "src",
-    "../../components/web"
+    "src"
   ]
 }
