@@ -25,3 +25,20 @@ test("compact navigation remains operable from keyboard", async ({ page }) => {
   await expect(profile).toHaveAttribute("aria-current", "page");
   await expect(page.getByTestId("destination")).toHaveText("profile");
 });
+
+test("overflow destinations remain reachable without hiding their labels", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "Primary navigation" });
+  const metrics = await nav.evaluate(element => ({
+    scrollWidth: element.scrollWidth,
+    clientWidth: element.clientWidth
+  }));
+  expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
+  const settings = nav.getByRole("button", { name: "Settings" });
+  await settings.scrollIntoViewIfNeeded();
+  await expect(settings.locator(".pes-nav__label")).toBeVisible();
+  await settings.click();
+  await expect(settings).toHaveAttribute("aria-current", "page");
+  await expect(page.getByTestId("destination")).toHaveText("settings");
+});
