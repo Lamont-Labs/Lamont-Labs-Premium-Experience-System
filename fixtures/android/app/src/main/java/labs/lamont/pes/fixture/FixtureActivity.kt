@@ -12,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import labs.lamont.pes.samples.LowProfileNavigation
+import labs.lamont.pes.samples.PremiumDestination
 import labs.lamont.pes.samples.DisclosurePanel
 import labs.lamont.pes.samples.PremiumAction
 import labs.lamont.pes.samples.PremiumSurface
@@ -22,6 +24,7 @@ class FixtureActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 val count = remember { mutableIntStateOf(0) }
+                val selected = androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf("court") }
                 PremiumSurface(
                     colors = labs.lamont.pes.samples.PremiumSurfaceColors(
                         background = Color(0xFF181A20),
@@ -32,6 +35,19 @@ class FixtureActivity : ComponentActivity() {
                 ) {
                     Column {
                         Text("LL-PES Android component fixture")
+                        LowProfileNavigation(
+                            destinations = listOf(
+                                PremiumDestination("court", "Court"),
+                                PremiumDestination("training", "Training"),
+                                PremiumDestination("profile", "Profile")
+                            ),
+                            currentRoute = selected.value,
+                            onNavigate = { selected.value = it },
+                            background = Color(0xFF181A20),
+                            foreground = Color.White,
+                            selectedBackground = Color(0xFF343943),
+                            icon = { Text("•") }
+                        )
                         Text("Attempts: ${count.intValue}")
                         DisclosurePanel(title = "Additional information") {
                             Text("Optional evidence and advanced context.")
