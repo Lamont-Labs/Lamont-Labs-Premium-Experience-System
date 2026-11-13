@@ -42,3 +42,22 @@ test("overflow destinations remain reachable without hiding their labels", async
   await expect(settings).toHaveAttribute("aria-current", "page");
   await expect(page.getByTestId("destination")).toHaveText("settings");
 });
+
+test("navigation labels scale and remain accessible with large text", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "Primary navigation" });
+  const training = nav.getByRole("button", { name: "Training" });
+  const label = training.locator(".pes-nav__label");
+  const before = await label.evaluate(element => parseFloat(getComputedStyle(element).fontSize));
+  await page.locator("body").evaluate(element => { element.style.fontSize = "200%"; });
+  const after = await label.evaluate(element => parseFloat(getComputedStyle(element).fontSize));
+  expect(after).toBeGreaterThan(before);
+  await expect(label).toBeVisible();
+  const bounds = await training.boundingBox();
+  expect(bounds).not.toBeNull();
+  expect(bounds!.height).toBeGreaterThanOrEqual(48);
+  await training.scrollIntoViewIfNeeded();
+  await training.click();
+  await expect(training).toHaveAttribute("aria-current", "page");
+});
