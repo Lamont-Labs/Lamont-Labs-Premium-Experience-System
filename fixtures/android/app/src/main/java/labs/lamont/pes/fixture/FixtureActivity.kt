@@ -12,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import labs.lamont.pes.samples.MetricStrip
+import labs.lamont.pes.samples.PremiumMetric
 import labs.lamont.pes.samples.CompactWorkspace
 import labs.lamont.pes.samples.WorkspaceView
 import labs.lamont.pes.samples.LowProfileNavigation
@@ -50,6 +52,14 @@ class FixtureActivity : ComponentActivity() {
                             foreground = Color.White,
                             selectedBackground = Color(0xFF343943),
                             icon = { Text("•") }
+                        )
+                        MetricStrip(
+                            metrics = listOf(
+                                PremiumMetric("attempts", "Recorded attempts", count.intValue.toString(), "Current fixture session"),
+                                PremiumMetric("destination", "Selected destination", selected.value, "Navigation state")
+                            ),
+                            background = Color(0xFF242833),
+                            foreground = Color.White
                         )
                         CompactWorkspace(
                             title = "Workspace preview",
