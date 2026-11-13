@@ -37,7 +37,10 @@ This repository is a reusable design and implementation resource collection, not
 - Historical failure issue: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/issues/5 (closed after successful verification).
 - Limitation: passing tests do not establish production-app integration, screen-reader certification, or exhaustive browser/device coverage.
 
-## Pending native Android workspace verification
-- The original Android passing run above predates `LowProfileNavigation.kt` and `CompactWorkspace.kt`.
-- A fresh workflow trigger was committed as `3948a8885c1683543201398e5cd91bba9758b05b`.
-- Do not describe these newer Android components as compile-verified until the corresponding run is inspected.
+## Expanded native Android navigation and workspace verification
+- Passing run: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/actions/runs/43516370361
+- Source commit: `813d9262d816078b4ab70b85779e97fe460e41c7`
+- Independently inspected job conclusion: `success`.
+- Passed: Android 35 SDK installation, Java/Gradle setup, compilation of the Compose fixture including `LowProfileNavigation.kt` and `CompactWorkspace.kt`, APK artifact upload, and verification receipt publication.
+- Durable receipt: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/issues/6
+- Limitation: no emulator interaction, screen-reader testing, or physical-device installation was performed.
