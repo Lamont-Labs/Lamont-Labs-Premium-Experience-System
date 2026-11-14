@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lamont-labs.github.io/ll-pes/resource-registry.schema.json",
+  "title": "LL-PES Resource Registry v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "integration_policy",
+    "capability_taxonomy",
+    "selection_guidance",
+    "license_policy",
+    "resources"
+  ],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "status": { "const": "research_candidates_not_license_audited" },
+    "integration_policy": { "type": "string", "minLength": 30 },
+    "capability_taxonomy": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_.-]*$" },
+      "additionalProperties": { "type": "string", "minLength": 5 }
+    },
+    "selection_guidance": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "type": "string", "minLength": 20 }
+    },
+    "license_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "research_reported_license",
+        "verified_upstream_license",
+        "unverified_behavior",
+        "restricted_resources"
+      ],
+      "properties": {
+        "research_reported_license": { "type": "string", "minLength": 20 },
+        "verified_upstream_license": { "type": "string", "minLength": 20 },
+        "unverified_behavior": { "type": "string", "minLength": 20 },
+        "restricted_resources": { "type": "string", "minLength": 20 }
+      }
+    },
+    "resources": {
+      "type": "array",
+      "minItems": 100,
+      "items": { "$ref": "#/$defs/resource" }
+    }
+  },
+  "$defs": {
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "url",
+        "category",
+        "mode",
+        "priority",
+        "platforms",
+        "capabilities",
+        "integration_disposition",
+        "status",
+        "source_origin",
+        "license_evidence",
+        "provenance_evidence",
+        "compatibility_evidence",
+        "auto_adoption_allowed",
+        "license_risk_classification",
+        "alternatives",
+        "conflicts",
+        "selection_guidance"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 2 },
+        "url": { "type": "string", "pattern": "^https://github\\.com/[^/]+/[^/?#]+$" },
+        "category": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "mode": { "enum": ["reference", "dependency", "candidate-vendor"] },
+        "priority": { "enum": ["P0", "P1", "P2"] },
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["android", "ios", "web", "kotlin_multiplatform", "cross_platform", "design_tooling", "agent_tooling", "cli", "api"]
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$" }
+        },
+        "integration_disposition": {
+          "enum": [
+            "reference_only",
+            "dependency_review_required",
+            "vendor_review_required",
+            "manual_license_review",
+            "excluded_from_automatic_adoption"
+          ]
+        },
+        "status": { "enum": ["existing_candidate_unverified", "new_candidate_unverified", "review_in_progress", "verified_candidate"] },
+        "source_origin": { "enum": ["existing_catalog", "repository_research_backlog", "public_github_discovery"] },
+        "license_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "research_reported_license",
+            "classification",
+            "verification_status",
+            "verified_upstream_license",
+            "evidence_url",
+            "checked_at"
+          ],
+          "properties": {
+            "research_reported_license": { "type": ["string", "null"] },
+            "classification": {
+              "enum": [
+                "unknown",
+                "permissive_reported_unverified",
+                "copyleft_reported_unverified",
+                "commercial_reported_unverified",
+                "mixed_license_reported_unverified",
+                "source_available_reported_unverified",
+                "restricted_terms_reported_unverified"
+              ]
+            },
+            "verification_status": { "enum": ["unverified", "verified"] },
+            "verified_upstream_license": { "type": ["string", "null"] },
+            "evidence_url": { "type": ["string", "null"] },
+            "checked_at": { "type": ["string", "null"], "format": "date" }
+          }
+        },
+        "provenance_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "evidence_url", "checked_at"],
+          "properties": {
+            "status": { "enum": ["unverified", "verified"] },
+            "evidence_url": { "type": ["string", "null"] },
+            "checked_at": { "type": ["string", "null"], "format": "date" }
+          }
+        },
+        "compatibility_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "checked_against", "checked_at"],
+          "properties": {
+            "status": { "enum": ["unverified", "verified"] },
+            "checked_against": { "type": "array", "items": { "type": "string" } },
+            "checked_at": { "type": ["string", "null"], "format": "date" }
+          }
+        },
+        "auto_adoption_allowed": { "const": false },
+        "license_risk_classification": {
+          "enum": [
+            "unknown",
+            "permissive_reported_unverified",
+            "copyleft_reported_unverified",
+            "commercial_reported_unverified",
+            "mixed_license_reported_unverified",
+            "source_available_reported_unverified",
+            "restricted_terms_reported_unverified"
+          ]
+        },
+        "alternatives": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "conflicts": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "selection_guidance": { "type": "string", "minLength": 20 }
+      }
+    }
+  }
+}

@@ -5,12 +5,18 @@ on:
     paths:
       - "components/web/**"
       - "tests/web/**"
+      - "tests/catalog/**"
+      - "catalog/**"
+      - "scripts/*resource-registry.mjs"
       - "package.json"
       - ".github/workflows/resource-contracts.yml"
   pull_request:
     paths:
       - "components/web/**"
       - "tests/web/**"
+      - "tests/catalog/**"
+      - "catalog/**"
+      - "scripts/*resource-registry.mjs"
       - "package.json"
       - ".github/workflows/resource-contracts.yml"
   workflow_dispatch:
@@ -29,3 +35,5 @@ jobs:
           node-version: "22"
       - name: Run source contract tests
         run: npm run test:contracts
+      - name: Validate resource registry
+        run: npm run catalog:validate

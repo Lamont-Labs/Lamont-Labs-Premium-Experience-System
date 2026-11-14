@@ -1,5 +1,9 @@
 # LL-PES integration status
 
+## Resource registry v2
+
+`resources.json` contains 172 records: the original 22 plus 150 public-repository research candidates. The added candidates are discovery leads only; license, provenance and compatibility review remains unverified. Nothing was installed or copied from upstream projects.
+
 | Resource | Status | Notes |
 | --- | --- | --- |
 | UI/UX Pro Max | Reference candidate | No upstream code vendored |

@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "description": "Static contract checks for copyable premium app development resources",
   "scripts": {
-    "test:contracts": "node --test tests/web/*.test.mjs"
+    "catalog:build": "node scripts/build-resource-registry.mjs",
+    "catalog:validate": "node scripts/validate-resource-registry.mjs",
+    "test:contracts": "node --test tests/web/*.test.mjs tests/catalog/*.test.mjs"
   }
 }
