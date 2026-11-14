@@ -44,3 +44,15 @@ This repository is a reusable design and implementation resource collection, not
 - Passed: Android 35 SDK installation, Java/Gradle setup, compilation of the Compose fixture including `LowProfileNavigation.kt` and `CompactWorkspace.kt`, APK artifact upload, and verification receipt publication.
 - Durable receipt: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/issues/6
 - Limitation: no emulator interaction, screen-reader testing, or physical-device installation was performed.
+
+## MetricStrip cross-platform verification — 2026-11-13
+- Web passing run: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/actions/runs/43534935817
+- Web source commit: `487c2c5c422aae166661d191cba33840a00a91af`
+- Web: independently inspected job `success` for TypeScript typecheck, Vite build, Playwright browser interaction tests, and artifact upload. The committed MetricStrip browser tests exercise caller-owned value updates, 320px viewport, and enlarged text.
+- Web receipt: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/issues/9
+- Android passing run: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/actions/runs/43517365441
+- Android source commit: `3cb7e296b8f370ba2d551f8bdde279dbe240a4ed`
+- Android: independently inspected job `success` for Compose fixture compilation, APK artifact upload, and receipt publication; the fixture integrates `MetricStrip.kt`.
+- Android receipt: https://github.com/Lamont-Labs/Lamont-Labs-Premium-Experience-System/issues/6
+- Known limitation: no Android device interaction or screen-reader verification. Web fixture tests are not equivalent to target-app acceptance tests.
+- Historical Android intermediate-build failure: issue #8; a later successful compilation verifies the corrected source, but the issue remains open pending workflow reconciliation.
