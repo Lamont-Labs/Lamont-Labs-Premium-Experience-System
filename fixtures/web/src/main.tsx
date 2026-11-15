@@ -32,6 +32,9 @@ function Fixture() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [itemQuery, setItemQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState("court-session");
+  const [itemFilter, setItemFilter] = useState("all");
+  const [itemSort, setItemSort] = useState<"ascending" | "descending">("ascending");
+  const [itemPage, setItemPage] = useState(1);
   const emailError = formSubmitted && !email.includes("@") ? "Enter a valid email address." : undefined;
   return <div className="app" data-pes-theme="dark">
     <header><h1>LL-PES component fixture</h1><p>Brand-independent interaction and layout verification</p></header>
@@ -99,14 +102,24 @@ function Fixture() {
       <FilterableList
         label="Saved sessions"
         items={[
-          { id: "court-session", label: "Court session", description: "Recent practice", keywords: ["training"] },
-          { id: "review-session", label: "Review session", description: "Needs review", keywords: ["video"] },
-          { id: "planning-session", label: "Planning session", description: "Draft plan", keywords: ["schedule"] }
+          { id: "court-session", label: "Court session", description: "Recent practice", keywords: ["training"], filterValue: "practice" },
+          { id: "review-session", label: "Review session", description: "Needs review", keywords: ["video"], filterValue: "review" },
+          { id: "planning-session", label: "Planning session", description: "Draft plan", keywords: ["schedule"], filterValue: "practice" },
+          { id: "warmup-session", label: "Warmup session", description: "Short practice", keywords: ["training"], filterValue: "practice" },
+          { id: "video-session", label: "Video session", description: "Review recorded play", keywords: ["video"], filterValue: "review" }
         ]}
         query={itemQuery}
-        onQueryChange={setItemQuery}
+        onQueryChange={value => { setItemQuery(value); setItemPage(1); }}
         selectedId={selectedItem}
         onSelect={setSelectedItem}
+        filterOptions={[{ value: "practice", label: "Practice" }, { value: "review", label: "Review" }]}
+        activeFilter={itemFilter}
+        onFilterChange={value => { setItemFilter(value); setItemPage(1); }}
+        sortDirection={itemSort}
+        onSortDirectionChange={direction => { setItemSort(direction); setItemPage(1); }}
+        page={itemPage}
+        pageSize={2}
+        onPageChange={setItemPage}
       />
       <p>Selected session: <output data-testid="selected-session">{selectedItem}</output></p>
     </section>

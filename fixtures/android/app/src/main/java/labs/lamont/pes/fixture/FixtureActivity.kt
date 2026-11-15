@@ -30,6 +30,8 @@ import labs.lamont.pes.samples.FormValidationIssue
 import labs.lamont.pes.samples.FormValidationSummary
 import labs.lamont.pes.samples.FilterableItem
 import labs.lamont.pes.samples.FilterableList
+import labs.lamont.pes.samples.FilterableListOption
+import labs.lamont.pes.samples.FilterableListSortDirection
 import labs.lamont.pes.samples.PremiumExperienceTheme
 
 class FixtureActivity : ComponentActivity() {
@@ -46,6 +48,9 @@ class FixtureActivity : ComponentActivity() {
                 val emailFocusRequester = remember { FocusRequester() }
                 val sessionQuery = remember { androidx.compose.runtime.mutableStateOf("") }
                 val selectedSession = remember { androidx.compose.runtime.mutableStateOf("court-session") }
+                val sessionFilter = remember { androidx.compose.runtime.mutableStateOf("all") }
+                val sessionSort = remember { androidx.compose.runtime.mutableStateOf(FilterableListSortDirection.Ascending) }
+                val sessionPage = remember { androidx.compose.runtime.mutableIntStateOf(1) }
                 PremiumSurface(
                     colors = labs.lamont.pes.samples.PremiumSurfaceColors(
                         background = Color(0xFF181A20),
@@ -121,15 +126,28 @@ class FixtureActivity : ComponentActivity() {
                         }
                         FilterableList(
                             items = listOf(
-                                FilterableItem("court-session", "Court session", "Recent practice", listOf("training")),
-                                FilterableItem("review-session", "Review session", "Needs review", listOf("video")),
-                                FilterableItem("planning-session", "Planning session", "Draft plan", listOf("schedule"))
+                                FilterableItem("court-session", "Court session", "Recent practice", listOf("training"), "practice"),
+                                FilterableItem("review-session", "Review session", "Needs review", listOf("video"), "review"),
+                                FilterableItem("planning-session", "Planning session", "Draft plan", listOf("schedule"), "practice"),
+                                FilterableItem("warmup-session", "Warmup session", "Short practice", listOf("training"), "practice"),
+                                FilterableItem("video-session", "Video session", "Review recorded play", listOf("video"), "review")
                             ),
                             query = sessionQuery.value,
-                            onQueryChange = { sessionQuery.value = it },
+                            onQueryChange = { sessionQuery.value = it; sessionPage.intValue = 1 },
                             selectedId = selectedSession.value,
                             onSelect = { selectedSession.value = it },
-                            label = "Saved sessions"
+                            label = "Saved sessions",
+                            filterOptions = listOf(
+                                FilterableListOption("practice", "Practice"),
+                                FilterableListOption("review", "Review")
+                            ),
+                            activeFilter = sessionFilter.value,
+                            onFilterChange = { sessionFilter.value = it; sessionPage.intValue = 1 },
+                            sortDirection = sessionSort.value,
+                            onSortDirectionChange = { sessionSort.value = it; sessionPage.intValue = 1 },
+                            page = sessionPage.intValue,
+                            pageSize = 2,
+                            onPageChange = { sessionPage.intValue = it }
                         )
                         DisclosurePanel(title = "Additional information") {
                             Text("Optional evidence and advanced context.")

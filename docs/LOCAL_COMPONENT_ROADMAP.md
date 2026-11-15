@@ -20,7 +20,7 @@ Standardize local tokens, buttons, navigation, disclosures, form fields, validat
 
 Add reusable local patterns for lists, search, sorting, filtering, selection, pagination, forms, validation summaries, and caller-owned state. Cover loading, empty, stale/offline, error, recovery, and interrupted states without requiring a remote data provider.
 
-**Implemented first:** a searchable single-selection list for Web and Android. Search operates only on supplied labels, descriptions, and keywords; query and selected item remain caller-owned.
+**Implemented first:** searchable single-selection lists for Web and Android, with caller-owned query, category filter, sort direction, selection, and page state. All operations run locally over supplied items and metadata.
 
 ### Phase 3 — Visualization and location
 

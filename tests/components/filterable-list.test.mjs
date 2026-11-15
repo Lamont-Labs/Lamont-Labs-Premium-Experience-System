@@ -12,6 +12,10 @@ test("Web filterable list uses local matching, accessible native selection, and 
   assert.match(component, /type="radio"/);
   assert.match(component, /onQueryChange/);
   assert.match(component, /onSelect\(item\.id\)/);
+  assert.match(component, /onSortDirectionChange/);
+  assert.match(component, /onFilterChange/);
+  assert.match(component, /matchingItems\.slice/);
+  assert.match(component, /onPageChange/);
   assert.match(component, /role="status"/);
   assert.match(styles, /:focus-visible/);
   assert.match(styles, /forced-colors: active/);
@@ -24,5 +28,8 @@ test("Android filterable list uses local matching and accessible radio selection
   assert.match(component, /Role\.RadioButton/);
   assert.match(component, /onQueryChange: \(String\) -> Unit/);
   assert.match(component, /onSelect\(item\.id\)/);
+  assert.match(component, /FilterChip/);
+  assert.match(component, /FilterableListSortDirection/);
+  assert.match(component, /onPageChange/);
   assert.match(component, /LiveRegionMode\.Polite/);
 });

@@ -9,7 +9,7 @@ Components in `components/android/` and `components/web/` are original LL-PES im
 - `FeedbackState.kt`: local loading, empty, success, error, and offline states; the caller owns data and retry behavior.
 - `FormField.kt`: labeled Material field with required, hint, and caller-provided validation states.
 - `FormValidationSummary.kt`: announces submitted errors and lets the caller return focus to the relevant field.
-- `FilterableList.kt`: searches caller-provided items locally and exposes single selection with Compose radio semantics.
+- `FilterableList.kt`: searches, filters, sorts, and pages caller-provided items with Compose radio selection.
 
 Uses Compose Material 3 in the local Android fixture. A consuming app may copy selected source, but must verify compatibility in its own build.
 
@@ -20,7 +20,7 @@ Uses Compose Material 3 in the local Android fixture. A consuming app may copy s
 - `FeedbackState.tsx` + CSS: live status/error announcements, recovery action, and reduced-motion-aware loading state.
 - `FormField.tsx` + CSS: labeled input with linked descriptions, required state, and caller-owned validation.
 - `FormValidationSummary.tsx` + CSS: announced error list with links that focus and scroll to invalid fields.
-- `FilterableList.tsx` + CSS: local search and native radio selection over caller-provided items.
+- `FilterableList.tsx` + CSS: local search, filters, sorting, pagination, and native radio selection over caller-provided items.
 
 Uses React, TSX, and local CSS in the browser fixture. These components do not replace an application's router or data layer.
 

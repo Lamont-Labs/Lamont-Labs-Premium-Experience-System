@@ -10,6 +10,61 @@
   font-weight: 650;
 }
 
+.pes-filterable-list__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+}
+
+.pes-filterable-list__control {
+  display: grid;
+  flex: 1 1 10rem;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.pes-filterable-list__control select,
+.pes-filterable-list__sort,
+.pes-filterable-list__pagination button {
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  color: inherit;
+  background: var(--pes-list-background, #171a20);
+  border: 1px solid var(--pes-list-border, #727986);
+  border-radius: 0.625rem;
+  font: inherit;
+}
+
+.pes-filterable-list__control select {
+  width: 100%;
+}
+
+.pes-filterable-list__sort,
+.pes-filterable-list__pagination button {
+  cursor: pointer;
+}
+
+.pes-filterable-list__sort:focus-visible,
+.pes-filterable-list__control select:focus-visible,
+.pes-filterable-list__pagination button:focus-visible {
+  outline: 3px solid var(--pes-list-focus, #ffad70);
+  outline-offset: 2px;
+}
+
+.pes-filterable-list__pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pes-filterable-list__pagination button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .pes-filterable-list__search {
   width: 100%;
   min-height: 48px;
@@ -86,6 +141,9 @@
 
 @media (forced-colors: active) {
   .pes-filterable-list__search,
+  .pes-filterable-list__control select,
+  .pes-filterable-list__sort,
+  .pes-filterable-list__pagination button,
   .pes-filterable-list__item {
     border: 1px solid FieldText;
   }
