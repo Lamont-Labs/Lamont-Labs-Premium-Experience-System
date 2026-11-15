@@ -1,14 +1,14 @@
 # Lamont Labs Premium Experience System (LL-PES)
 
-Shared excellence. Distinct product identities. Verified implementation.
+Shared excellence. Distinct product identities. Locally implemented.
 
-LL-PES is a versioned, optional design and experience engineering foundation for Lamont Labs products. It provides platform-specific components, semantic design tokens, navigation and onboarding patterns, and evidence-backed quality gates without changing the identity or persistent state of adopting applications.
+LL-PES is a single repository of original, reusable Web and Android components, design patterns, fixtures, and quality checks for Lamont Labs products. Public projects in the resource catalog are references for research and comparison, not services that components must call or dependencies that must be installed.
 
 ## Project rules
 
-- Android / Jetpack Compose is the initial platform; React is a separate future adapter.
-- No application is required to connect to a central LL-PES service at runtime.
-- Each app pins an explicit compatible release; updates require application-level verification.
+- Build platform-specific implementations in `components/android/` and `components/web/`, with local fixtures exercising the same component contracts.
+- Components use local state and caller-provided data by default. No application is required to call LL-PES or an upstream resource at runtime.
+- Implement capability areas in phases; do not bulk-copy or clone upstream projects.
 - Preserve application IDs, signing identities, approved artwork, persistent data, and existing journeys.
 - Compilation is not functional verification. Record tests executed and failures or unverified checks.
 
@@ -18,4 +18,4 @@ CourtQuest Pro is a reference for validated patterns, not a dependency or source
 
 ## Status
 
-Phase 0 discovery is partial. The first Android showcase is not yet build-verified. See upcoming architecture, source, and CI commits for implementation status.
+The current source is an early component set. The local implementation roadmap is in `docs/LOCAL_COMPONENT_ROADMAP.md`; build and device/browser verification status is recorded in the fixture documentation.

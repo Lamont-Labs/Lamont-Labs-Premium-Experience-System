@@ -2,11 +2,11 @@
   "name": "ll-pes-resource-toolkit",
   "private": true,
   "version": "0.1.0",
-  "description": "Static contract checks for copyable premium app development resources",
+  "description": "Local-first Web and Android components with reference and verification tooling",
   "scripts": {
     "catalog:build": "node scripts/build-resource-registry.mjs",
     "catalog:validate": "node scripts/validate-resource-registry.mjs",
     "catalog:select": "node scripts/select-resources.mjs",
-    "test:contracts": "node --test tests/web/*.test.mjs tests/catalog/*.test.mjs"
+    "test:contracts": "node --test tests/components/*.test.mjs tests/web/*.test.mjs tests/catalog/*.test.mjs"
   }
 }

@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -21,15 +20,21 @@ import labs.lamont.pes.samples.PremiumDestination
 import labs.lamont.pes.samples.DisclosurePanel
 import labs.lamont.pes.samples.PremiumAction
 import labs.lamont.pes.samples.PremiumSurface
+import labs.lamont.pes.samples.FeedbackKind
+import labs.lamont.pes.samples.FeedbackState
+import labs.lamont.pes.samples.FormField
+import labs.lamont.pes.samples.PremiumExperienceTheme
 
 class FixtureActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            PremiumExperienceTheme {
                 val count = remember { mutableIntStateOf(0) }
                 val selected = remember { androidx.compose.runtime.mutableStateOf("court") }
                 val workspaceView = remember { androidx.compose.runtime.mutableStateOf("overview") }
+                val feedbackKind = remember { androidx.compose.runtime.mutableStateOf(FeedbackKind.Empty) }
+                val email = remember { androidx.compose.runtime.mutableStateOf("") }
                 PremiumSurface(
                     colors = labs.lamont.pes.samples.PremiumSurfaceColors(
                         background = Color(0xFF181A20),
@@ -76,6 +81,20 @@ class FixtureActivity : ComponentActivity() {
                             summary = { Text("Focused content without stacked sections") }
                         ) { view -> Text("Selected view: ${view.label}") }
                         Text("Attempts: ${count.intValue}")
+                        FeedbackState(
+                            kind = feedbackKind.value,
+                            title = if (feedbackKind.value == FeedbackKind.Success) "Session is ready" else "No sessions yet",
+                            description = "Feedback is rendered locally; loading and recovery behavior belong to the caller.",
+                            actionLabel = if (feedbackKind.value == FeedbackKind.Empty) "Show success" else null,
+                            onAction = { feedbackKind.value = FeedbackKind.Success }
+                        )
+                        FormField(
+                            value = email.value,
+                            onValueChange = { email.value = it },
+                            label = "Email",
+                            hint = "Validation is supplied by the calling app.",
+                            required = true
+                        )
                         DisclosurePanel(title = "Additional information") {
                             Text("Optional evidence and advanced context.")
                         }

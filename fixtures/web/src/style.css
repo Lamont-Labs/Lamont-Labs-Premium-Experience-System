@@ -1,1 +1,5 @@
+@import "./design/tokens.css";
+
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 75% 0%,#353a46,#0c0e12 60%);color:#f8f9fc;font-family:system-ui,sans-serif}.app{max-width:1100px;margin:auto;padding:24px;display:grid;gap:20px}h1{font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:0}h2{font-size:1.2rem}p{line-height:1.55}header p{color:#bfc4ce}@media(max-width:480px){.app{padding:12px;gap:14px}}
+.feedback-demo{display:grid;gap:12px}.feedback-demo__choices{display:flex;flex-wrap:wrap;gap:8px}.feedback-demo__choices button{min-height:40px;padding:8px 12px;border:1px solid #596271;border-radius:999px;background:#20242b;color:#fff;font:inherit;cursor:pointer}.feedback-demo__choices button[aria-pressed=true]{border-color:#ffad70;background:#3b2d25}.feedback-demo__choices button:focus-visible{outline:3px solid #ffad70;outline-offset:2px}
+.form-demo form{display:grid;gap:12px;max-width:560px}.form-demo__submit{justify-self:start;min-height:44px;padding:9px 14px;border:0;border-radius:10px;background:#ffad70;color:#17191d;font:inherit;font-weight:700;cursor:pointer}.form-demo__submit:focus-visible{outline:3px solid #fff;outline-offset:3px}

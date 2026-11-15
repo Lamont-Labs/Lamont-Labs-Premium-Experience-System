@@ -9,13 +9,27 @@ import { AdaptiveSplit } from "./components/AdaptiveSplit";
 import { DisclosurePanel } from "./components/DisclosurePanel";
 import { WorkspaceShell } from "./components/WorkspaceShell";
 import { MetricStrip } from "./components/MetricStrip";
+import { FeedbackState, type FeedbackKind } from "./components/FeedbackState";
+import { FormField } from "./components/FormField";
 import "./style.css";
+
+const feedbackContent: Record<FeedbackKind, { title: string; description: string }> = {
+  loading: { title: "Loading saved sessions", description: "Your local workspace is being prepared." },
+  empty: { title: "No sessions yet", description: "Create a session to see it in this workspace." },
+  success: { title: "Session is ready", description: "Your local session can now be reviewed." },
+  error: { title: "Session could not be opened", description: "Try again or keep working with your saved copy." },
+  offline: { title: "You are offline", description: "Previously saved information remains available." },
+};
 
 function Fixture() {
   const [current, setCurrent] = useState("court");
   const [count, setCount] = useState(0);
   const [workspaceView, setWorkspaceView] = useState("overview");
-  return <div className="app">
+  const [feedbackKind, setFeedbackKind] = useState<FeedbackKind>("empty");
+  const [email, setEmail] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const emailError = formSubmitted && !email.includes("@") ? "Enter a valid email address." : undefined;
+  return <div className="app" data-pes-theme="dark">
     <header><h1>LL-PES component fixture</h1><p>Brand-independent interaction and layout verification</p></header>
     <CompactNavigation
       items={[
@@ -33,6 +47,46 @@ function Fixture() {
       { id: "attempts", label: "Recorded attempts", value: <output data-testid="metric-attempts">{count}</output>, detail: "Current fixture session" },
       { id: "destination", label: "Selected destination", value: current, detail: "Navigation state" }
     ]} />
+    <section className="feedback-demo" aria-labelledby="feedback-demo-title">
+      <h2 id="feedback-demo-title">Feedback states</h2>
+      <div className="feedback-demo__choices" role="group" aria-label="Choose a feedback state">
+        {(["loading", "empty", "success", "error", "offline"] as const).map(kind => (
+          <button
+            key={kind}
+            type="button"
+            aria-pressed={feedbackKind === kind}
+            onClick={() => setFeedbackKind(kind)}
+          >
+            {kind[0].toUpperCase() + kind.slice(1)}
+          </button>
+        ))}
+      </div>
+      <FeedbackState
+        kind={feedbackKind}
+        title={feedbackContent[feedbackKind].title}
+        description={feedbackContent[feedbackKind].description}
+        actionLabel={["empty", "error", "offline"].includes(feedbackKind) ? "Show recovery" : undefined}
+        onAction={() => setFeedbackKind("success")}
+      />
+    </section>
+    <section className="form-demo" aria-labelledby="form-demo-title">
+      <h2 id="form-demo-title">Local form patterns</h2>
+      <form noValidate onSubmit={event => { event.preventDefault(); setFormSubmitted(true); }}>
+        <FormField
+          id="fixture-email"
+          label="Email"
+          type="email"
+          autoComplete="email"
+          value={email}
+          onChange={event => setEmail(event.target.value)}
+          required
+          hint="Validation and saved state belong to the calling app."
+          error={emailError}
+        />
+        <button className="form-demo__submit" type="submit">Save locally</button>
+        {formSubmitted && !emailError && <p role="status">Saved locally.</p>}
+      </form>
+    </section>
     <WorkspaceShell
       title="Workspace preview"
       summary="Focused content without a long stack of sections"

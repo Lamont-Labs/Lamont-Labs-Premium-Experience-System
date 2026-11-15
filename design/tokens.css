@@ -1,0 +1,86 @@
+:root,
+[data-pes-theme="light"] {
+  color-scheme: light;
+  --pes-color-canvas: #F6F7F9;
+  --pes-color-surface: #FFFFFF;
+  --pes-color-surface-raised: #EEF1F5;
+  --pes-color-foreground: #171A20;
+  --pes-color-muted: #535B67;
+  --pes-color-outline: #66707D;
+  --pes-color-accent: #8B470F;
+  --pes-color-on-accent: #FFFFFF;
+  --pes-color-success: #17613F;
+  --pes-color-success-container: #D3F5DE;
+  --pes-color-on-success-container: #062E19;
+  --pes-color-danger: #A4231A;
+  --pes-color-danger-container: #FFDAD4;
+  --pes-color-on-danger-container: #410002;
+  --pes-color-warning: #674B00;
+  --pes-color-focus: #005FCC;
+}
+
+[data-pes-theme="dark"] {
+  color-scheme: dark;
+  --pes-color-canvas: #111318;
+  --pes-color-surface: #191C22;
+  --pes-color-surface-raised: #242833;
+  --pes-color-foreground: #F3F5F9;
+  --pes-color-muted: #C2C7D0;
+  --pes-color-outline: #858C98;
+  --pes-color-accent: #FFB77D;
+  --pes-color-on-accent: #2D1607;
+  --pes-color-success: #82D9A9;
+  --pes-color-success-container: #135232;
+  --pes-color-on-success-container: #B6F1C5;
+  --pes-color-danger: #FFB4AB;
+  --pes-color-danger-container: #5C1712;
+  --pes-color-on-danger-container: #FFDAD4;
+  --pes-color-warning: #F4C875;
+  --pes-color-focus: #FFD0A8;
+}
+
+:root {
+  --pes-background: var(--pes-color-surface);
+  --pes-foreground: var(--pes-color-foreground);
+  --pes-border: var(--pes-color-outline);
+  --pes-accent: var(--pes-color-accent);
+  --pes-on-accent: var(--pes-color-on-accent);
+  --pes-disclosure-background: var(--pes-color-surface-raised);
+  --pes-disclosure-border: var(--pes-color-outline);
+  --pes-disclosure-foreground: var(--pes-color-foreground);
+  --pes-disclosure-focus: var(--pes-color-focus);
+  --pes-feedback-background: var(--pes-color-surface-raised);
+  --pes-feedback-border: var(--pes-color-outline);
+  --pes-feedback-foreground: var(--pes-color-foreground);
+  --pes-feedback-muted: var(--pes-color-muted);
+  --pes-feedback-accent: var(--pes-color-accent);
+  --pes-feedback-success: var(--pes-color-success);
+  --pes-feedback-error: var(--pes-color-danger);
+  --pes-feedback-offline: var(--pes-color-warning);
+  --pes-feedback-focus: var(--pes-color-focus);
+  --pes-feedback-action-background: var(--pes-color-accent);
+  --pes-feedback-action-foreground: var(--pes-color-on-accent);
+  --pes-field-background: var(--pes-color-canvas);
+  --pes-field-border: var(--pes-color-outline);
+  --pes-field-foreground: var(--pes-color-foreground);
+  --pes-field-muted: var(--pes-color-muted);
+  --pes-field-error: var(--pes-color-danger);
+  --pes-field-focus: var(--pes-color-focus);
+  --pes-glass-border: var(--pes-color-outline);
+  --pes-glass-foreground: var(--pes-color-foreground);
+  --pes-glass-solid: var(--pes-color-surface-raised);
+  --pes-glass-tint: var(--pes-color-surface);
+  --pes-metric-bg: var(--pes-color-surface-raised);
+  --pes-metric-border: var(--pes-color-outline);
+  --pes-metric-text: var(--pes-color-foreground);
+  --pes-nav-bg: var(--pes-color-surface);
+  --pes-nav-border: var(--pes-color-outline);
+  --pes-nav-selected: var(--pes-color-surface-raised);
+  --pes-nav-text: var(--pes-color-foreground);
+  --pes-workspace-active-border: var(--pes-color-accent);
+  --pes-workspace-bg: var(--pes-color-surface);
+  --pes-workspace-border: var(--pes-color-outline);
+  --pes-workspace-focus: var(--pes-color-focus);
+  --pes-workspace-selected: var(--pes-color-surface-raised);
+  --pes-workspace-text: var(--pes-color-foreground);
+}

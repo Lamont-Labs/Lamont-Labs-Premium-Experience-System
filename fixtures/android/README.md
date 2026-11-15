@@ -14,4 +14,4 @@ The build file links to the shared original Kotlin source in `../../components/a
 
 This fixture is only for compilation and a manual UI smoke test. It is not a production app, does not share any real app package ID, and does not prove the full components are accessible or production ready.
 
-**Status:** source committed, build result not yet verified.
+**Status:** compilation and emulator behavior are not yet verified.

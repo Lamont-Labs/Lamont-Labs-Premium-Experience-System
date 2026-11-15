@@ -1,6 +1,12 @@
 # LL-PES agent instructions
 
-LL-PES is a reusable **repository of app-building resources**, not a platform, hosted service, or mandatory runtime dependency.
+LL-PES is a single-repository, local-first component and experience library for Web and Android. It is not a platform, hosted service, or mandatory runtime dependency.
+
+## Local-first build strategy
+- Build original LL-PES implementations under `components/web/` and `components/android/`; use upstream projects as research references, not runtime calls or default dependencies.
+- Implement the capability domains in `catalog/resources.json` in phases. Do not clone or bulk-copy upstream repositories.
+- Keep components functional with local inputs and caller-provided data. Any network/service integration must be an explicit adapter, never a hidden requirement of a component.
+- Copy or adapt upstream code or assets only after checking the exact source, license scope, notices, and provenance. Prefer independently authored implementations from documented behavior and visual references.
 
 ## When improving another app
 1. Inspect that app's current source, instructions, approved brand assets, tests and active branch.
@@ -12,8 +18,10 @@ LL-PES is a reusable **repository of app-building resources**, not a platform, h
 
 ## Integration classes
 - **reference**: link to upstream examples, do not copy entire repositories.
-- **dependency**: install from the original maintainer using pinned versions and a lockfile.
-- **candidate-vendor**: copy only after reviewing license, provenance and maintenance; preserve notices.
+- **dependency**: exceptional and explicitly approved; pin versions and audit transitive licenses before adding.
+- **candidate-vendor**: only after reviewing exact license scope, provenance, maintenance, and notices.
+
+The default for this repository is **reference and implement locally**, not dependency or vendor.
 
 No unverified tests or claims of release readiness. No unnecessary dependencies.
 

@@ -1,17 +1,16 @@
-# How to use LL-PES
+# How to build with LL-PES
 
-In a development session, ask the agent to inspect this repository and the target app before proposing changes.
+LL-PES components are implemented and exercised inside this repository. Use the public resource catalog for research and comparison; it is not a list of services to call or libraries to install.
 
 Example:
 
-> Inspect Lamont-Labs/Lamont-Labs-Premium-Experience-System and my target app's current branch. Use relevant design intelligence, native UI patterns and testing resources to improve the app's experience. Preserve the existing brand, functionality, persistent data, signing identity and application ID. Make reversible commits and report executed tests separately from unverified checks.
+> Inspect this repository's existing local components, fixtures and design rules. Use the catalog only as reference material, then build the feature locally for Web and Android. Do not introduce an upstream runtime call or dependency unless I explicitly approve it.
 
 ## Workflow
-1. Read `AGENTS.md`.
-2. Search `catalog/resources.json` by platform/capability and compare alternatives and conflicts.
-3. Treat every record as a candidate. Verify the exact upstream source, package license/notices, provenance, release/version, compatibility, and any commercial or service terms.
-4. Make a target-app-specific design and test plan.
-5. Implement in the target app, not in a shared runtime service.
-6. Capture evidence and document remaining limitations.
+1. Read `AGENTS.md`, `docs/LOCAL_COMPONENT_ROADMAP.md`, and the relevant design playbook.
+2. Inspect both platform implementations and fixtures before changing a component.
+3. Use catalog entries as references. Independently implement the behavior inside `components/web/` and `components/android/`.
+4. Keep data inputs and service adapters explicit; components must work without upstream network calls.
+5. Extend the browser and Android fixtures, run applicable checks, and record what remains unverified.
 
-The registry is a research starting point, not a blanket commercial-use clearance. Its `research_reported_license` field is not verified upstream evidence. All current candidates have automatic adoption disabled.
+If copying source code, assets, or substantial implementation details from an upstream project, check the exact license and notices first. A repository-level license screen is not legal clearance for copied assets, package releases, or an app distribution.

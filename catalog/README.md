@@ -1,6 +1,6 @@
 # Resource Registry v2
 
-`resources.json` is the active app-use registry. It contains 35 candidates whose upstream repository license was checked and permits commercial use under a permissive license. `research-archive.json` retains 137 leads that are not cleared for app use. The original 150 discovery leads remain in `candidate-seeds.json`, but seeds and archive records are not active candidates.
+`resources.json` is a 35-entry research shortlist with checked permissive repository licenses. `research-archive.json` retains 137 excluded or unresolved research leads. The original 150 discovery leads remain in `candidate-seeds.json`. These files are reference material, not a runtime dependency list; build local LL-PES implementations rather than making components call or install these projects.
 
 ## Find a candidate
 
@@ -11,7 +11,7 @@
 
 For a deterministic shortlist, use `npm run catalog:select -- --platform android --capability android.compose.design_system`. Add `--query <text>` for a text search or `--format json` for machine-readable output. The selector reads only the active registry; it cannot show archived, copyleft, mixed, restricted, or unverified leads. Results are ordered by priority, then name and stable ID. Combine filters with AND; capability tags are exact matches. Platform-prefixed capabilities (such as `web.forms`) cannot be paired with a different platform filter.
 
-An active record has a verified repository-level permissive license, not legal clearance for a particular app release. Its exact package version, dependencies, assets, provenance, and compatibility still need review. `auto_adoption_allowed` remains false for every record. No third-party project was installed or copied into LL-PES.
+An active record has a verified repository-level permissive license, not legal clearance for a particular app release or for copying its code and assets. Exact package versions, dependencies, assets, provenance, and compatibility still need review before copying or adapting source. `auto_adoption_allowed` remains false for every record. No third-party project was installed or copied into LL-PES.
 
 ## Updating
 

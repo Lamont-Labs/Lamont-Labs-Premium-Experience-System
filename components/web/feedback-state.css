@@ -1,0 +1,103 @@
+.pes-feedback-state {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  color: var(--pes-feedback-foreground, #f5f6f8);
+  background: var(--pes-feedback-background, #20242b);
+  border: 1px solid var(--pes-feedback-border, #4b5360);
+  border-radius: 16px;
+}
+
+.pes-feedback-state[data-state="success"] {
+  --pes-feedback-mark: var(--pes-feedback-success, #7ce0b2);
+}
+
+.pes-feedback-state[data-state="error"] {
+  --pes-feedback-mark: var(--pes-feedback-error, #ff9a9a);
+}
+
+.pes-feedback-state[data-state="offline"] {
+  --pes-feedback-mark: var(--pes-feedback-offline, #f0c879);
+}
+
+.pes-feedback-state[data-state="loading"],
+.pes-feedback-state[data-state="empty"] {
+  --pes-feedback-mark: var(--pes-feedback-accent, #ffad70);
+}
+
+.pes-feedback-state__mark {
+  display: grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--pes-feedback-mark, #ffad70);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.pes-feedback-state__spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: pes-feedback-spin 850ms linear infinite;
+}
+
+.pes-feedback-state__content {
+  min-width: 0;
+}
+
+.pes-feedback-state__label {
+  margin: 0 0 4px;
+  color: var(--pes-feedback-mark, #ffad70);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pes-feedback-state__title {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.pes-feedback-state__description {
+  margin: 6px 0 0;
+  color: var(--pes-feedback-muted, #c3c8d1);
+  line-height: 1.5;
+}
+
+.pes-feedback-state__action {
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  color: var(--pes-feedback-action-foreground, #17191d);
+  background: var(--pes-feedback-action-background, #ffad70);
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pes-feedback-state__action:focus-visible {
+  outline: 3px solid var(--pes-feedback-focus, #fff);
+  outline-offset: 3px;
+}
+
+@keyframes pes-feedback-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pes-feedback-state__spinner { animation: none; }
+}
+
+@media (forced-colors: active) {
+  .pes-feedback-state { border: 1px solid CanvasText; }
+  .pes-feedback-state__action { border: 1px solid ButtonText; }
+}

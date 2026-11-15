@@ -1,6 +1,6 @@
 # Browser verification fixture
 
-This is a **test fixture**, not an LL-PES platform or product. It imports the copyable React components from `../../components/web`.
+This is a **test fixture**, not an LL-PES platform or product. Its staging script copies local React components and semantic tokens from the repository before typecheck/build; it does not call upstream projects.
 
 Run from this directory with Node 22:
 ```bash
