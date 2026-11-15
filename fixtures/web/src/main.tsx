@@ -11,6 +11,7 @@ import { WorkspaceShell } from "./components/WorkspaceShell";
 import { MetricStrip } from "./components/MetricStrip";
 import { FeedbackState, type FeedbackKind } from "./components/FeedbackState";
 import { FormField } from "./components/FormField";
+import { FormValidationSummary } from "./components/FormValidationSummary";
 import "./style.css";
 
 const feedbackContent: Record<FeedbackKind, { title: string; description: string }> = {
@@ -72,6 +73,9 @@ function Fixture() {
     <section className="form-demo" aria-labelledby="form-demo-title">
       <h2 id="form-demo-title">Local form patterns</h2>
       <form noValidate onSubmit={event => { event.preventDefault(); setFormSubmitted(true); }}>
+        <FormValidationSummary
+          errors={emailError ? [{ fieldId: "fixture-email", label: "Email", message: emailError }] : []}
+        />
         <FormField
           id="fixture-email"
           label="Email"

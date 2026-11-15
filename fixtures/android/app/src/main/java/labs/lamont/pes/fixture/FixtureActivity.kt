@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -23,6 +26,8 @@ import labs.lamont.pes.samples.PremiumSurface
 import labs.lamont.pes.samples.FeedbackKind
 import labs.lamont.pes.samples.FeedbackState
 import labs.lamont.pes.samples.FormField
+import labs.lamont.pes.samples.FormValidationIssue
+import labs.lamont.pes.samples.FormValidationSummary
 import labs.lamont.pes.samples.PremiumExperienceTheme
 
 class FixtureActivity : ComponentActivity() {
@@ -35,6 +40,8 @@ class FixtureActivity : ComponentActivity() {
                 val workspaceView = remember { androidx.compose.runtime.mutableStateOf("overview") }
                 val feedbackKind = remember { androidx.compose.runtime.mutableStateOf(FeedbackKind.Empty) }
                 val email = remember { androidx.compose.runtime.mutableStateOf("") }
+                val showEmailError = remember { androidx.compose.runtime.mutableStateOf(false) }
+                val emailFocusRequester = remember { FocusRequester() }
                 PremiumSurface(
                     colors = labs.lamont.pes.samples.PremiumSurfaceColors(
                         background = Color(0xFF181A20),
@@ -93,8 +100,21 @@ class FixtureActivity : ComponentActivity() {
                             onValueChange = { email.value = it },
                             label = "Email",
                             hint = "Validation is supplied by the calling app.",
-                            required = true
+                            required = true,
+                            error = if (showEmailError.value) "Enter an email address." else null,
+                            modifier = Modifier.focusRequester(emailFocusRequester)
                         )
+                        FormValidationSummary(
+                            errors = if (showEmailError.value) {
+                                listOf(FormValidationIssue("email", "Email", "Enter an email address."))
+                            } else {
+                                emptyList()
+                            },
+                            onErrorClick = { emailFocusRequester.requestFocus() }
+                        )
+                        Button(onClick = { showEmailError.value = email.value.isBlank() }) {
+                            Text("Validate form")
+                        }
                         DisclosurePanel(title = "Additional information") {
                             Text("Optional evidence and advanced context.")
                         }

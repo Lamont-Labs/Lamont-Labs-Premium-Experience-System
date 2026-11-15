@@ -1,0 +1,51 @@
+.pes-validation-summary {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--pes-validation-foreground, #fff2f2);
+  background: var(--pes-validation-background, #351f24);
+  border: 1px solid var(--pes-validation-border, #e77e8a);
+  border-inline-start-width: 4px;
+  border-radius: 0.75rem;
+}
+
+.pes-validation-summary__title,
+.pes-validation-summary__list {
+  margin: 0;
+}
+
+.pes-validation-summary__title {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.pes-validation-summary__list {
+  display: grid;
+  gap: 0.375rem;
+  padding-inline-start: 1.25rem;
+}
+
+.pes-validation-summary__link {
+  color: inherit;
+  line-height: 1.5;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.pes-validation-summary__link:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.pes-validation-summary__label {
+  font-weight: 700;
+}
+
+@media (forced-colors: active) {
+  .pes-validation-summary {
+    color: CanvasText;
+    background: Canvas;
+    border: 2px solid LinkText;
+  }
+}

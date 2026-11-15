@@ -14,7 +14,7 @@ Review exact licenses and preserve notices before copying any upstream code, ass
 
 Standardize local tokens, buttons, navigation, disclosures, form fields, validation, loading/empty/error/offline/success states, responsive surfaces, and accessibility semantics. Expand both fixtures and test keyboard, screen-reader semantics, reduced motion, and narrow layouts.
 
-**Implemented first:** shared semantic color tokens plus local feedback states and form fields for Web and Android, with caller-owned recovery/validation behavior and fixture coverage. Broader field patterns remain in this phase.
+**Implemented first:** shared semantic color tokens, local feedback states, form fields, and validation summaries for Web and Android. Validation and recovery behavior remains caller-owned; fixtures cover field-level errors and returning focus from the error summary. Broader field patterns remain in this phase.
 
 ### Phase 2 — Data and task workflows
 

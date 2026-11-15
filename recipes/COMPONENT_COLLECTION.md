@@ -8,6 +8,7 @@ Components in `components/android/` and `components/web/` are original LL-PES im
 - `CompactNavigation.kt`: navigation with caller-supplied approved icons and route state. It does **not** impose a bottom-bar layout on every product.
 - `FeedbackState.kt`: local loading, empty, success, error, and offline states; the caller owns data and retry behavior.
 - `FormField.kt`: labeled Material field with required, hint, and caller-provided validation states.
+- `FormValidationSummary.kt`: announces submitted errors and lets the caller return focus to the relevant field.
 
 Uses Compose Material 3 in the local Android fixture. A consuming app may copy selected source, but must verify compatibility in its own build.
 
@@ -17,6 +18,7 @@ Uses Compose Material 3 in the local Android fixture. A consuming app may copy s
 - `CompactNavigation.tsx` + CSS: compact icon navigation with an accessible name and active page state.
 - `FeedbackState.tsx` + CSS: live status/error announcements, recovery action, and reduced-motion-aware loading state.
 - `FormField.tsx` + CSS: labeled input with linked descriptions, required state, and caller-owned validation.
+- `FormValidationSummary.tsx` + CSS: announced error list with links that focus and scroll to invalid fields.
 
 Uses React, TSX, and local CSS in the browser fixture. These components do not replace an application's router or data layer.
 
