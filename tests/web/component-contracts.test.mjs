@@ -14,6 +14,7 @@ test("all React component source files have matching local CSS", () => {
     ["FeedbackState.tsx", "feedback-state.css"],
     ["FormField.tsx", "form-field.css"],
     ["FormValidationSummary.tsx", "form-validation-summary.css"],
+    ["FilterableList.tsx", "filterable-list.css"],
   ]) {
     assert.ok(source(tsx).includes(`"./${css}"`), `${tsx} must import ${css}`);
     assert.ok(source(css).length > 50, `${css} must not be empty`);

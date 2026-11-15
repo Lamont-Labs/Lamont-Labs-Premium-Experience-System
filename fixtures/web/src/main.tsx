@@ -12,6 +12,7 @@ import { MetricStrip } from "./components/MetricStrip";
 import { FeedbackState, type FeedbackKind } from "./components/FeedbackState";
 import { FormField } from "./components/FormField";
 import { FormValidationSummary } from "./components/FormValidationSummary";
+import { FilterableList } from "./components/FilterableList";
 import "./style.css";
 
 const feedbackContent: Record<FeedbackKind, { title: string; description: string }> = {
@@ -29,6 +30,8 @@ function Fixture() {
   const [feedbackKind, setFeedbackKind] = useState<FeedbackKind>("empty");
   const [email, setEmail] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [itemQuery, setItemQuery] = useState("");
+  const [selectedItem, setSelectedItem] = useState("court-session");
   const emailError = formSubmitted && !email.includes("@") ? "Enter a valid email address." : undefined;
   return <div className="app" data-pes-theme="dark">
     <header><h1>LL-PES component fixture</h1><p>Brand-independent interaction and layout verification</p></header>
@@ -90,6 +93,22 @@ function Fixture() {
         <button className="form-demo__submit" type="submit">Save locally</button>
         {formSubmitted && !emailError && <p role="status">Saved locally.</p>}
       </form>
+    </section>
+    <section aria-labelledby="filter-demo-title">
+      <h2 id="filter-demo-title">Local search and selection</h2>
+      <FilterableList
+        label="Saved sessions"
+        items={[
+          { id: "court-session", label: "Court session", description: "Recent practice", keywords: ["training"] },
+          { id: "review-session", label: "Review session", description: "Needs review", keywords: ["video"] },
+          { id: "planning-session", label: "Planning session", description: "Draft plan", keywords: ["schedule"] }
+        ]}
+        query={itemQuery}
+        onQueryChange={setItemQuery}
+        selectedId={selectedItem}
+        onSelect={setSelectedItem}
+      />
+      <p>Selected session: <output data-testid="selected-session">{selectedItem}</output></p>
     </section>
     <WorkspaceShell
       title="Workspace preview"

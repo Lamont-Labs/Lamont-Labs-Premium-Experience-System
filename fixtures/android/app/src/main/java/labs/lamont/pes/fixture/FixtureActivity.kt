@@ -28,6 +28,8 @@ import labs.lamont.pes.samples.FeedbackState
 import labs.lamont.pes.samples.FormField
 import labs.lamont.pes.samples.FormValidationIssue
 import labs.lamont.pes.samples.FormValidationSummary
+import labs.lamont.pes.samples.FilterableItem
+import labs.lamont.pes.samples.FilterableList
 import labs.lamont.pes.samples.PremiumExperienceTheme
 
 class FixtureActivity : ComponentActivity() {
@@ -42,6 +44,8 @@ class FixtureActivity : ComponentActivity() {
                 val email = remember { androidx.compose.runtime.mutableStateOf("") }
                 val showEmailError = remember { androidx.compose.runtime.mutableStateOf(false) }
                 val emailFocusRequester = remember { FocusRequester() }
+                val sessionQuery = remember { androidx.compose.runtime.mutableStateOf("") }
+                val selectedSession = remember { androidx.compose.runtime.mutableStateOf("court-session") }
                 PremiumSurface(
                     colors = labs.lamont.pes.samples.PremiumSurfaceColors(
                         background = Color(0xFF181A20),
@@ -115,6 +119,18 @@ class FixtureActivity : ComponentActivity() {
                         Button(onClick = { showEmailError.value = email.value.isBlank() }) {
                             Text("Validate form")
                         }
+                        FilterableList(
+                            items = listOf(
+                                FilterableItem("court-session", "Court session", "Recent practice", listOf("training")),
+                                FilterableItem("review-session", "Review session", "Needs review", listOf("video")),
+                                FilterableItem("planning-session", "Planning session", "Draft plan", listOf("schedule"))
+                            ),
+                            query = sessionQuery.value,
+                            onQueryChange = { sessionQuery.value = it },
+                            selectedId = selectedSession.value,
+                            onSelect = { selectedSession.value = it },
+                            label = "Saved sessions"
+                        )
                         DisclosurePanel(title = "Additional information") {
                             Text("Optional evidence and advanced context.")
                         }
