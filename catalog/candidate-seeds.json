@@ -1,6 +1,8 @@
 {
   "seed_schema_version": 1,
+  "status": "research_archive_only",
   "source_note": "Curated from the repository research backlog and public GitHub discovery. These are candidate leads, not approvals. No seed has been independently cleared for licensing, provenance, or compatibility.",
+  "app_use_notice": "Discovery seeds are not eligible app-use candidates. Only entries in resources.json pass the repository-level permissive-license screen; exact release and app-specific review is still required.",
   "groups": [
     {
       "category": "android-compose",

@@ -18,7 +18,7 @@ LL-PES is a reusable **repository of app-building resources**, not a platform, h
 No unverified tests or claims of release readiness. No unnecessary dependencies.
 
 ## Resource registry
-- `catalog/resources.json` is the machine-readable v2 registry; `catalog/resource-registry.schema.json` defines its contract.
-- Every current record has unverified license, provenance and compatibility evidence. `auto_adoption_allowed` must remain `false`.
-- Review `catalog/README.md` and `docs/INTEGRATION_POLICY.md` before selecting a resource. Commercial, source-available, mixed-license, hosted-service and restricted signals require manual review and must not be adopted automatically.
-- Update candidate leads in `catalog/candidate-seeds.json`, rebuild with `npm run catalog:build`, then run `npm run catalog:validate` and `npm run test:contracts`.
+- `catalog/resources.json` is the active app-use registry; `catalog/research-archive.json` and `catalog/candidate-seeds.json` are not active candidate lists.
+- Active records have a verified repository-level permissive license, but exact release, package, asset, dependency, provenance and compatibility checks remain. `auto_adoption_allowed` must remain `false`.
+- Review `catalog/README.md` and `docs/INTEGRATION_POLICY.md` before selecting a resource. Copyleft, commercial, source-available, mixed-license, custom-restricted, hosted-service, unlicensed and unresolved resources stay out of the active list.
+- Add a lead to `catalog/app-use-allowlist.json` only after recording its primary license URL, scope, and review date. Update research leads in `catalog/candidate-seeds.json`; rebuild with `npm run catalog:build`, then run `npm run catalog:validate` and `npm run test:contracts`.

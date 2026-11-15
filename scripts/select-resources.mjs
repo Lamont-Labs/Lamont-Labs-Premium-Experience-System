@@ -2,12 +2,6 @@ import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
 const root = new URL("../", import.meta.url);
-const restrictedClassifications = new Set([
-  "commercial_reported_unverified",
-  "mixed_license_reported_unverified",
-  "source_available_reported_unverified",
-  "restricted_terms_reported_unverified"
-]);
 const priorityRank = { P0: 0, P1: 1, P2: 2 };
 const compareText = (left, right) => left < right ? -1 : left > right ? 1 : 0;
 const usage = `Usage: npm run catalog:select -- [filters]
@@ -18,25 +12,20 @@ Filters:
   --query <text>          Case-insensitive search across ID, name, category, and guidance
   --status <status>       Exact registry status
   --disposition <value>   Exact integration disposition
-  --include-restricted    Include commercially or otherwise restricted leads for manual review
   --limit <number>        Maximum results (default: 20)
   --format <text|json>    Output format (default: text)
   --help                  Show this help
 
-Results are research leads, not adoption approvals. License, provenance, and compatibility
-must be checked for the exact upstream version before integration.`;
+Results have a screened repository-level license, not app-specific legal clearance. Check the
+exact package/version, assets, dependency tree, provenance, and compatibility before integration.`;
 
 export function parseSelectorArgs(args) {
-  const options = { limit: 20, format: "text", includeRestricted: false };
+const options = { limit: 20, format: "text" };
   const valueOptions = new Set(["--platform", "--capability", "--query", "--status", "--disposition", "--limit", "--format"]);
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index];
     if (argument === "--help") {
       options.help = true;
-      continue;
-    }
-    if (argument === "--include-restricted") {
-      options.includeRestricted = true;
       continue;
     }
     if (!valueOptions.has(argument)) throw new Error(`Unknown option: ${argument}`);
@@ -59,10 +48,9 @@ export function selectResources(catalog, options = {}) {
   const query = options.query?.trim().toLowerCase();
   return catalog.resources
     .filter(resource => {
-      if (!options.includeRestricted && (
-        resource.integration_disposition === "excluded_from_automatic_adoption"
-        || restrictedClassifications.has(resource.license_risk_classification)
-      )) return false;
+      if (resource.app_use_status !== "commercial_license_screened_candidate") return false;
+      if (resource.license_evidence.verification_status !== "verified") return false;
+      if (resource.license_evidence.classification !== "permissive_verified") return false;
       if (options.platform && !resource.platforms.includes(options.platform)) return false;
       if (options.capability && !resource.capabilities.includes(options.capability)) return false;
       if (options.platform && options.capability) {
@@ -121,7 +109,7 @@ async function main() {
   const catalog = JSON.parse(await readFile(new URL("catalog/resources.json", root), "utf8"));
   const results = selectResources(catalog, options);
   console.log(options.format === "json" ? JSON.stringify(results, null, 2) : renderText(results));
-  console.error(`Matched ${results.length} resource(s). All are research leads; none are cleared for automatic adoption.`);
+  console.error(`Matched ${results.length} candidate(s). Adoption remains disabled pending app-specific review.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

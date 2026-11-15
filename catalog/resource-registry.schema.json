@@ -15,7 +15,7 @@
   ],
   "properties": {
     "schema_version": { "const": 2 },
-    "status": { "const": "research_candidates_not_license_audited" },
+    "status": { "const": "commercial_app_license_screened_candidates" },
     "integration_policy": { "type": "string", "minLength": 30 },
     "capability_taxonomy": {
       "type": "object",
@@ -46,7 +46,7 @@
     },
     "resources": {
       "type": "array",
-      "minItems": 100,
+      "minItems": 1,
       "items": { "$ref": "#/$defs/resource" }
     }
   },
@@ -70,6 +70,7 @@
         "provenance_evidence",
         "compatibility_evidence",
         "auto_adoption_allowed",
+        "app_use_status",
         "license_risk_classification",
         "alternatives",
         "conflicts",
@@ -116,13 +117,15 @@
             "verification_status",
             "verified_upstream_license",
             "evidence_url",
-            "checked_at"
+            "checked_at",
+            "scope"
           ],
           "properties": {
             "research_reported_license": { "type": ["string", "null"] },
             "classification": {
               "enum": [
                 "unknown",
+                "permissive_verified",
                 "permissive_reported_unverified",
                 "copyleft_reported_unverified",
                 "commercial_reported_unverified",
@@ -134,7 +137,8 @@
             "verification_status": { "enum": ["unverified", "verified"] },
             "verified_upstream_license": { "type": ["string", "null"] },
             "evidence_url": { "type": ["string", "null"] },
-            "checked_at": { "type": ["string", "null"], "format": "date" }
+            "checked_at": { "type": ["string", "null"], "format": "date" },
+            "scope": { "type": "string", "minLength": 20 }
           }
         },
         "provenance_evidence": {
@@ -158,9 +162,11 @@
           }
         },
         "auto_adoption_allowed": { "const": false },
+        "app_use_status": { "const": "commercial_license_screened_candidate" },
         "license_risk_classification": {
           "enum": [
             "unknown",
+            "permissive_verified",
             "permissive_reported_unverified",
             "copyleft_reported_unverified",
             "commercial_reported_unverified",

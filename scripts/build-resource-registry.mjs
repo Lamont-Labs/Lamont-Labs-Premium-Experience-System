@@ -3,6 +3,8 @@ import { readFile, writeFile } from "node:fs/promises";
 const root = new URL("../", import.meta.url);
 const catalogPath = new URL("catalog/resources.json", root);
 const seedsPath = new URL("catalog/candidate-seeds.json", root);
+const allowlistPath = new URL("catalog/app-use-allowlist.json", root);
+const archivePath = new URL("catalog/research-archive.json", root);
 
 const capabilityTaxonomy = {
   "accessibility.guidance": "Accessibility standards and implementation guidance",
@@ -106,9 +108,25 @@ const oldSelectionGuidance = {
 
 const seedDocument = JSON.parse(await readFile(seedsPath, "utf8"));
 const catalog = JSON.parse(await readFile(catalogPath, "utf8"));
+const allowlist = JSON.parse(await readFile(allowlistPath, "utf8"));
 const originalCatalogText = await readFile(catalogPath, "utf8");
+let originalArchiveText = null;
+let previousArchive = null;
+try {
+  originalArchiveText = await readFile(archivePath, "utf8");
+  previousArchive = JSON.parse(originalArchiveText);
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
 if (seedDocument.seed_schema_version !== 1 || !Array.isArray(seedDocument.groups)) {
   throw new Error("Unsupported candidate seed format");
+}
+if (allowlist.policy_version !== 1 || !Array.isArray(allowlist.resources)) {
+  throw new Error("Unsupported app-use allowlist format");
+}
+const allowlistById = new Map(allowlist.resources.map(item => [item.id, item]));
+if (allowlistById.size !== allowlist.resources.length) {
+  throw new Error("App-use allowlist contains duplicate resource IDs");
 }
 
 function makeEvidence(reported, classification = "unknown") {
@@ -178,7 +196,12 @@ function fromSeed(resource, group) {
   };
 }
 
-const resources = catalog.resources.map(resource =>
+const sourceResources = [
+  ...(previousArchive?.resources ?? []),
+  ...catalog.resources
+];
+const uniqueSources = new Map(sourceResources.map(resource => [resource.id, resource]));
+const resources = [...uniqueSources.values()].map(resource =>
   resource.status && resource.source_origin !== "existing_catalog"
     ? resource
     : normalizeExisting(resource)
@@ -196,35 +219,76 @@ for (const group of seedDocument.groups) {
   }
 }
 
+const completeResearchSet = resources;
+const allowlistedIds = new Set(allowlistById.keys());
+const activeResources = completeResearchSet
+  .filter(resource => allowlistById.has(resource.id))
+  .map(resource => {
+    const approval = allowlistById.get(resource.id);
+    return {
+      ...resource,
+      status: "review_in_progress",
+      app_use_status: "commercial_license_screened_candidate",
+      license_evidence: {
+        research_reported_license: null,
+        classification: "permissive_verified",
+        verification_status: "verified",
+        verified_upstream_license: approval.license,
+        evidence_url: approval.evidence_url,
+        checked_at: allowlist.checked_at,
+        scope: approval.scope
+      },
+      license_risk_classification: "permissive_verified",
+      alternatives: resource.alternatives.filter(id => allowlistedIds.has(id)),
+      conflicts: resource.conflicts.filter(id => allowlistedIds.has(id)),
+      provenance_evidence: resource.provenance_evidence ?? { status: "unverified", evidence_url: null, checked_at: null },
+      compatibility_evidence: resource.compatibility_evidence ?? { status: "unverified", checked_against: [], checked_at: null },
+      auto_adoption_allowed: false
+    };
+  });
+const activeIds = new Set(activeResources.map(resource => resource.id));
+if (activeIds.size !== allowlistById.size) {
+  const missing = [...allowlistById.keys()].filter(id => !activeIds.has(id));
+  throw new Error(`Allowlisted resource IDs are missing from the research set: ${missing.join(", ")}`);
+}
+const archivedResources = completeResearchSet.filter(resource => !activeIds.has(resource.id));
+const archiveDocument = {
+  archive_version: 1,
+  status: "research_only_not_cleared_for_app_use",
+  notice: "These discovery records are not active app-use candidates. They are retained for research history and must not be treated as cleared for commercial app distribution.",
+  resources: archivedResources
+};
+const archiveText = `${JSON.stringify(archiveDocument, null, 2)}\n`;
+
 catalog.schema_version = 2;
-catalog.status = "research_candidates_not_license_audited";
-catalog.integration_policy = "All catalog entries are research candidates. No candidate is cleared for adoption until its exact upstream license, provenance, and target compatibility are independently evidenced.";
+catalog.status = "commercial_app_license_screened_candidates";
+catalog.integration_policy = "Only entries with a verified permissive upstream source license are active app-use candidates. This is not legal clearance for a selected package version, dependencies, assets, service terms, provenance, or target compatibility.";
 catalog.capability_taxonomy = capabilityTaxonomy;
 catalog.selection_guidance = [
   "Search by capability tags and platform before selecting a resource; use the alternatives list to compare candidates in the same role.",
   "Treat conflicts as confirmed incompatibilities only; an empty list means no conflict has been established, not that compatibility is proven.",
-  "Start with reference-only candidates. Consider dependencies only after checking the exact upstream revision, package and file-level licenses, maintenance, security, compatibility, and commercial terms.",
-  "Treat source-visible, mixed-license, commercial, hosted-service, and asset-heavy resources as manual legal and product review; never auto-install or bulk-copy them.",
-  "Record upstream evidence URLs, checked date, version or commit, compatibility target, and the decision before changing a target application."
+  "An active entry has only passed a repository-level permissive-license screen; check the exact package/version, included assets, notices, dependencies, maintenance, security, and target compatibility before adoption.",
+  "Do not use archived research leads as app-use candidates. Copyleft, mixed-license, custom-restricted, commercial, hosted-service, and unlicensed resources stay archived until separately reviewed.",
+  "Record the exact upstream evidence URL, version or commit, compatibility target, asset scope, and the decision before changing a target application."
 ];
 catalog.license_policy = {
-  "research_reported_license": "A research lead or commonly reported license signal; not legal clearance and not proof of current upstream terms.",
-  "verified_upstream_license": "Only populated after inspecting the exact upstream license files/notices and relevant package or asset scope.",
-  "unverified_behavior": "All current entries remain unverified for license, provenance, and compatibility. auto_adoption_allowed is false.",
-  "restricted_resources": "Commercial, source-available, mixed-license, hosted-service, or otherwise restricted signals require manual review and are excluded from automatic adoption."
+  "research_reported_license": "Reported signals in archived records are not legal clearance or proof of current upstream terms.",
+  "verified_upstream_license": "Active entries have a repository-level license file checked on the recorded date; exact package, version, assets, dependency tree, and service terms still need review.",
+  "unverified_behavior": "Active entries have unverified provenance and compatibility, and are candidates only; auto_adoption_allowed remains false.",
+  "restricted_resources": "Copyleft, commercial, source-available, mixed-license, custom-restricted, hosted-service, unlicensed, and unresolved leads are excluded from the active list and retained in the research archive."
 };
-catalog.resources = resources;
+catalog.resources = activeResources;
 
 const { resources: outputResources, ...catalogMetadata } = catalog;
 const metadataJson = JSON.stringify(catalogMetadata, null, 2);
 const generatedText = `${metadataJson.slice(0, -1).trimEnd()},\n  "resources": [\n${outputResources.map(resource => `    ${JSON.stringify(resource)}`).join(",\n")}\n  ]\n}\n`;
-const candidateCount = seedDocument.groups.reduce((n, group) => n + group.resources.length, 0);
 if (process.argv.includes("--check")) {
-  if (originalCatalogText !== generatedText) {
-    throw new Error("Generated catalog is stale; run npm run catalog:build and review the diff.");
+  if (originalCatalogText !== generatedText || originalArchiveText !== archiveText) {
+    throw new Error("Generated app-use catalog or research archive is stale; run npm run catalog:build and review the diff.");
   }
-  console.log(`Catalog generation is current and deterministic (${resources.length} records, ${candidateCount} additions).`);
+  console.log(`Catalog generation is current and deterministic (${activeResources.length} active, ${archivedResources.length} archived).`);
 } else {
   await writeFile(catalogPath, generatedText, "utf8");
-  console.log(`Built ${resources.length} catalog records (${candidateCount} new candidates).`);
+  await writeFile(archivePath, archiveText, "utf8");
+  console.log(`Built ${activeResources.length} license-screened app-use candidates and archived ${archivedResources.length} research leads.`);
 }

@@ -125,8 +125,18 @@ export function validateCatalog(catalog, schema) {
       !resource.license_evidence.verified_upstream_license
       || !resource.license_evidence.evidence_url
       || !resource.license_evidence.checked_at
+      || !resource.license_evidence.scope
     )) {
-      errors.push(`${resource.id}: verified license needs the exact license, evidence URL, and review date`);
+      errors.push(`${resource.id}: verified license needs the license, evidence URL, review date, and scope`);
+    }
+    if (resource.app_use_status === "commercial_license_screened_candidate" && (
+      resource.license_evidence.verification_status !== "verified"
+      || resource.license_evidence.classification !== "permissive_verified"
+      || resource.status !== "review_in_progress"
+      || resource.provenance_evidence.status !== "unverified"
+      || resource.compatibility_evidence.status !== "unverified"
+    )) {
+      errors.push(`${resource.id}: app-use candidates need a screened permissive license and remain pending other reviews`);
     }
     if (resource.provenance_evidence.status === "verified" && (
       !resource.provenance_evidence.evidence_url || !resource.provenance_evidence.checked_at
@@ -179,8 +189,7 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  const added = catalog.resources.filter(resource => resource.status === "new_candidate_unverified").length;
-  console.log(`Resource registry valid: ${catalog.resources.length} resources (${added} new, all unverified).`);
+  console.log(`Resource registry valid: ${catalog.resources.length} commercial-license-screened candidates (adoption still disabled).`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

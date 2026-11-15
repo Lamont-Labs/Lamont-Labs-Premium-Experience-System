@@ -1,21 +1,21 @@
 # LL-PES integration status
 
-## Resource registry v2
+## App-use registry
 
-`resources.json` contains 172 records: the original 22 plus 150 public-repository research candidates. The added candidates are discovery leads only; license, provenance and compatibility review remains unverified. Nothing was installed or copied from upstream projects.
+`resources.json` contains 35 active candidates with a checked permissive upstream repository license. The archive retains 137 leads, including copyleft, mixed, restricted, and not-yet-reviewed resources. The 150 new discovery leads remain in `candidate-seeds.json`. Provenance, compatibility, exact release/package scope, bundled assets, and dependency trees still need app-specific review. Nothing was installed or copied from upstream projects.
 
 | Resource | Status | Notes |
 | --- | --- | --- |
-| UI/UX Pro Max | Reference candidate | No upstream code vendored |
-| Impeccable | Reference candidate | No upstream code vendored |
-| Now in Android | Reference candidate | Architectural inspiration only |
-| Compose Unstyled | Dependency candidate | Version and compatibility not yet selected |
-| Haze | Dependency candidate | Check target Kotlin/Compose compatibility |
-| Maestro | Tool candidate | Not installed by LL-PES |
-| Roborazzi | Tool candidate | Not installed by LL-PES |
-| Storybook | Tool candidate | Not installed by LL-PES |
-| Playwright | Tool candidate | Not installed by LL-PES |
+| UI/UX Pro Max | License-screened candidate | MIT source license; generated output and exact use still need review |
+| Impeccable | License-screened candidate | Apache-2.0 source license; third-party references retain their own terms |
+| Now in Android | License-screened candidate | Apache-2.0 sample; preserve notices when adapting |
+| Compose Unstyled | License-screened candidate | MIT source license; version and compatibility not selected |
+| Haze | License-screened candidate | Apache-2.0 source license; target compatibility not selected |
+| Maestro | License-screened candidate | Apache-2.0 development tool; not installed by LL-PES |
+| Roborazzi | License-screened candidate | Apache-2.0 development tool; not installed by LL-PES |
+| Storybook | License-screened candidate | MIT development tool; not installed by LL-PES |
+| Playwright | License-screened candidate | Apache-2.0 development tool; not installed by LL-PES |
 | LL-PES Compose PremiumSurface | Original sample added | Not compile-tested |
 | LL-PES React PremiumSurface | Original sample added | Not typechecked or browser-tested |
 
-No third-party source was copied in this task. Original LL-PES examples are optional copy-and-adapt snippets. The license and maintenance audit of external candidates remains pending.
+No third-party source was copied in this task. Original LL-PES examples are optional copy-and-adapt snippets. A screened repository license is not app-specific legal approval.

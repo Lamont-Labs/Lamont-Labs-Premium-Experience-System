@@ -30,17 +30,14 @@ test("selector does not pair a platform-prefixed capability with another platfor
   }), []);
 });
 
-test("restricted candidates are excluded unless explicitly requested for review", () => {
+test("selector exposes only license-screened app-use candidates", () => {
   const safeDefault = selectResources(catalog, { limit: 200 });
+  assert.equal(safeDefault.length, catalog.resources.length);
   assert.ok(safeDefault.every(resource =>
-    resource.integration_disposition !== "excluded_from_automatic_adoption"
-    && !resource.license_risk_classification.includes("commercial_reported")
-    && !resource.license_risk_classification.includes("mixed_license_reported")
-    && !resource.license_risk_classification.includes("source_available_reported")
-    && !resource.license_risk_classification.includes("restricted_terms_reported")
+    resource.app_use_status === "commercial_license_screened_candidate"
+    && resource.license_evidence.verification_status === "verified"
+    && resource.license_evidence.classification === "permissive_verified"
   ));
-  const withRestricted = selectResources(catalog, { includeRestricted: true, limit: 200 });
-  assert.ok(withRestricted.length > safeDefault.length);
 });
 
 test("selector output is stable and honors the requested result limit", () => {
@@ -51,12 +48,13 @@ test("selector output is stable and honors the requested result limit", () => {
   assert.equal(first.length, 7);
 });
 
-test("CLI emits machine-readable results and reports unverified evidence plainly", () => {
+test("CLI emits machine-readable results and distinguishes license review from adoption", () => {
   const output = execFileSync(process.execPath, [
     "scripts/select-resources.mjs", "--platform", "android", "--limit", "1", "--format", "json"
   ], { cwd: root, encoding: "utf8" });
   const [resource] = JSON.parse(output);
-  assert.equal(resource.license_evidence.verification_status, "unverified");
+  assert.equal(resource.license_evidence.verification_status, "verified");
+  assert.equal(resource.app_use_status, "commercial_license_screened_candidate");
   assert.equal(resource.auto_adoption_allowed, false);
 });
 
@@ -64,6 +62,7 @@ test("selector rejects malformed options instead of silently broadening results"
   assert.throws(() => parseSelectorArgs(["--platform"]), /requires a value/);
   assert.throws(() => parseSelectorArgs(["--limit", "0"]), /positive whole number/);
   assert.throws(() => parseSelectorArgs(["--format", "yaml"]), /text or json/);
+  assert.throws(() => parseSelectorArgs(["--include-restricted"]), /Unknown option/);
   const result = spawnSync(process.execPath, ["scripts/select-resources.mjs", "--unknown"], {
     cwd: root,
     encoding: "utf8"

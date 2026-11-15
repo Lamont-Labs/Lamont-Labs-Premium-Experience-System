@@ -6,11 +6,14 @@ import { fileURLToPath } from "node:url";
 import { validateCatalog } from "../../scripts/validate-resource-registry.mjs";
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), "utf8"));
-const [catalog, schema, seeds] = await Promise.all([
+const [catalog, schema, seeds, archive, allowlist] = await Promise.all([
   readJson("../../catalog/resources.json"),
   readJson("../../catalog/resource-registry.schema.json"),
-  readJson("../../catalog/candidate-seeds.json")
+  readJson("../../catalog/candidate-seeds.json"),
+  readJson("../../catalog/research-archive.json"),
+  readJson("../../catalog/app-use-allowlist.json")
 ]);
+const archivedIds = new Set(archive.resources.map(resource => resource.id));
 
 const legacyIds = [
   "ui-ux-pro-max", "impeccable", "now-in-android", "compose-samples", "compose-unstyled",
@@ -33,28 +36,31 @@ test("aggregated registry is deterministic and current with its candidate seeds"
 });
 
 test("resource-specific capability tags do not inherit unrelated group defaults", () => {
-  const apollo = catalog.resources.find(resource => resource.id === "apollo-client");
-  const chart = catalog.resources.find(resource => resource.id === "recharts");
+  const apollo = archive.resources.find(resource => resource.id === "apollo-client");
+  const chart = archive.resources.find(resource => resource.id === "echarts");
   assert.ok(!apollo.capabilities.includes("web.forms"));
   assert.ok(!apollo.capabilities.includes("web.navigation"));
   assert.ok(!chart.capabilities.includes("web.maps"));
 });
 
-test("registry v2 retains the original 22 resources and adds over 100 candidates", () => {
+test("active registry contains only allowlisted app-use candidates and archives the rest", () => {
   const ids = new Set(catalog.resources.map(resource => resource.id));
-  for (const id of legacyIds) {
-    assert.ok(ids.has(id), `missing retained resource ${id}`);
-    const resource = catalog.resources.find(candidate => candidate.id === id);
-    assert.ok(resource.category && resource.mode && resource.priority, `${id} lost its legacy fields`);
+  const archivedIds = new Set(archive.resources.map(resource => resource.id));
+  for (const { id } of allowlist.resources) {
+    assert.ok(ids.has(id), `allowlisted resource missing from active registry: ${id}`);
   }
+  for (const id of legacyIds) assert.ok(ids.has(id) || archivedIds.has(id), `research history lost ${id}`);
   assert.equal(legacyIds.length, 22);
-  assert.ok(catalog.resources.length >= 100);
-  const additions = catalog.resources.filter(resource => resource.status === "new_candidate_unverified");
+  assert.equal(catalog.resources.length, allowlist.resources.length);
+  assert.equal(catalog.resources.length, 35);
+  assert.equal(archive.resources.length, 137);
+  assert.equal(new Set([...ids, ...archivedIds]).size, ids.size + archivedIds.size);
+  assert.equal(ids.size + archivedIds.size, 172);
+  assert.ok(catalog.resources.every(resource => resource.app_use_status === "commercial_license_screened_candidate"));
+  assert.ok(archive.resources.every(resource => resource.auto_adoption_allowed === false));
   const seedCount = seeds.groups.reduce((sum, group) => sum + group.resources.length, 0);
-  assert.ok(additions.length >= 100);
-  assert.equal(additions.length, seedCount);
-  assert.equal(catalog.resources.length, legacyIds.length + seedCount);
-  assert.equal(catalog.resources.filter(resource => resource.status === "new_candidate_unverified").length, 150);
+  assert.equal(seedCount, 150);
+  assert.equal(archive.resources.filter(resource => resource.status === "new_candidate_unverified").length, 135);
 });
 
 test("Style Dictionary uses the canonical upstream repository URL", () => {
@@ -62,21 +68,25 @@ test("Style Dictionary uses the canonical upstream repository URL", () => {
   assert.equal(resource.url, "https://github.com/style-dictionary/style-dictionary");
 });
 
-test("all new candidates separate reported license signals from verified evidence", () => {
-  const additions = catalog.resources.filter(resource => resource.status === "new_candidate_unverified");
-  assert.equal(additions.length, seeds.groups.reduce((sum, group) => sum + group.resources.length, 0));
-  for (const resource of additions) {
-    assert.equal(resource.license_evidence.verification_status, "unverified", resource.id);
-    assert.equal(resource.license_evidence.verified_upstream_license, null, resource.id);
+test("active candidates have verified permissive license evidence but remain unapproved", () => {
+  for (const resource of catalog.resources) {
+    assert.equal(resource.status, "review_in_progress", resource.id);
+    assert.equal(resource.license_evidence.verification_status, "verified", resource.id);
+    assert.equal(resource.license_evidence.classification, "permissive_verified", resource.id);
+    assert.ok(resource.license_evidence.verified_upstream_license, resource.id);
+    assert.ok(resource.license_evidence.evidence_url, resource.id);
+    assert.ok(resource.license_evidence.checked_at, resource.id);
+    assert.ok(resource.license_evidence.scope, resource.id);
     assert.equal(resource.provenance_evidence.status, "unverified", resource.id);
     assert.equal(resource.compatibility_evidence.status, "unverified", resource.id);
     assert.equal(resource.auto_adoption_allowed, false, resource.id);
   }
 });
 
-test("commercial, source-available, mixed-license, and restricted signals are distinct and excluded", () => {
-  const restricted = catalog.resources.filter(resource =>
+test("copyleft, mixed, restricted, and unclear entries stay outside active app candidates", () => {
+  const restricted = archive.resources.filter(resource =>
     [
+      "copyleft_reported_unverified",
       "commercial_reported_unverified",
       "mixed_license_reported_unverified",
       "source_available_reported_unverified",
@@ -95,14 +105,18 @@ test("commercial, source-available, mixed-license, and restricted signals are di
     assert.equal(resource.integration_disposition, "excluded_from_automatic_adoption", resource.id);
     assert.equal(resource.auto_adoption_allowed, false, resource.id);
   }
+  const activeIds = new Set(catalog.resources.map(resource => resource.id));
+  for (const id of ["axe-core", "renovate", "mobsf", "trufflehog", "pa11y", "highcharts", "mapbox-gl-js", "awesome-claude-code", "gsap"]) {
+    assert.ok(!activeIds.has(id), `${id} must not be an app-use candidate`);
+    assert.ok(archivedIds.has(id), `${id} must be retained in the research archive`);
+  }
 });
 
-test("capability tags cover the requested development domains", () => {
+test("active capability tags cover core app and development needs", () => {
   const tags = new Set(catalog.resources.flatMap(resource => resource.capabilities));
   for (const tag of [
-    "android.compose.design_system", "web.react.components", "design.tokens", "web.motion",
-    "web.forms", "web.data_viz", "web.maps", "accessibility.testing", "testing.web",
-    "testing.android", "security.supply_chain", "agent.skills"
+    "android.compose.design_system", "web.react.components", "web.forms",
+    "testing.android", "testing.web", "accessibility.testing", "security.supply_chain"
   ]) assert.ok(tags.has(tag), `missing capability ${tag}`);
 });
 
@@ -139,6 +153,7 @@ test("validator rejects incomplete verified evidence and impossible calendar dat
 });
 
 test("candidate seeds have unique stable IDs and canonical public GitHub links", () => {
+  assert.equal(seeds.status, "research_archive_only");
   const rows = seeds.groups.flatMap(group => group.resources);
   const ids = rows.map(resource => resource.id);
   assert.equal(new Set(ids).size, ids.length);

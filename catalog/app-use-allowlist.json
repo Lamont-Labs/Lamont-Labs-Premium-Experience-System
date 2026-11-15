@@ -1,0 +1,217 @@
+{
+  "policy_version": 1,
+  "checked_at": "2026-11-15",
+  "policy": "Active candidates need a verified upstream commercial-use-permissive license. This is not legal clearance for a specific release, app, package, asset, or dependency tree.",
+  "resources": [
+    {
+      "id": "ui-ux-pro-max",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/LICENSE",
+      "scope": "Repository license; generated output, third-party references, and exact use still require review."
+    },
+    {
+      "id": "impeccable",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/pbakaus/impeccable/main/LICENSE",
+      "scope": "Repository license; third-party notices and referenced platform guidance retain their own terms."
+    },
+    {
+      "id": "now-in-android",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/android/nowinandroid/main/LICENSE",
+      "scope": "Repository sample code; preserve required license and notice material when adapting code."
+    },
+    {
+      "id": "compose-samples",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/android/compose-samples/main/LICENSE",
+      "scope": "Repository sample code; preserve required license and notice material when adapting code."
+    },
+    {
+      "id": "compose-unstyled",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/composablehorizons/compose-unstyled/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "haze",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/chrisbanes/haze/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "coil",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/coil-kt/coil/main/LICENSE.txt",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "roborazzi",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/takahirom/roborazzi/main/LICENSE",
+      "scope": "Repository license for development and test tooling; verify the exact release before use."
+    },
+    {
+      "id": "paparazzi",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/cashapp/paparazzi/master/LICENSE.txt",
+      "scope": "Repository license for development and test tooling; verify the exact release before use."
+    },
+    {
+      "id": "maestro",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/mobile-dev-inc/Maestro/main/LICENSE",
+      "scope": "Repository license for development and test tooling; verify the exact release before use."
+    },
+    {
+      "id": "shadcn-ui",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/shadcn-ui/ui/main/LICENSE.md",
+      "scope": "Repository source license; separately review generated code, assets, and third-party dependencies."
+    },
+    {
+      "id": "radix",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/radix-ui/primitives/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "react-aria",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/adobe/react-spectrum/main/LICENSE",
+      "scope": "Repository code license; separately review included assets, package scope, and third-party notices."
+    },
+    {
+      "id": "storybook",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/storybookjs/storybook/main/LICENSE",
+      "scope": "Repository license for development tooling; verify the exact package release before use."
+    },
+    {
+      "id": "playwright",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/microsoft/playwright/main/LICENSE",
+      "scope": "Repository license for development and test tooling; verify the exact release before use."
+    },
+    {
+      "id": "style-dictionary",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/style-dictionary/style-dictionary/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "lucide",
+      "license": "ISC",
+      "evidence_url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/LICENSE",
+      "scope": "Repository license; verify exact icon assets and trademark rights before bundling."
+    },
+    {
+      "id": "motion",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/motiondivision/motion/main/LICENSE.md",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "osv-scanner",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/google/osv-scanner/main/LICENSE",
+      "scope": "Repository license for development and security tooling; verify the exact release before use."
+    },
+    {
+      "id": "syft",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/anchore/syft/main/LICENSE",
+      "scope": "Repository license for development and supply-chain tooling; verify the exact release before use."
+    },
+    {
+      "id": "android-compose-codelabs",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/android/codelab-android-compose/main/LICENSE",
+      "scope": "Repository sample code; preserve required license and notice material when adapting code."
+    },
+    {
+      "id": "android-architecture-samples",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/android/architecture-samples/main/LICENSE",
+      "scope": "Repository sample code; preserve required license and notice material when adapting code."
+    },
+    {
+      "id": "android-lottie",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/airbnb/lottie-android/master/LICENSE",
+      "scope": "Repository runtime license; separately review animation files and third-party assets."
+    },
+    {
+      "id": "android-accessibility-test-framework",
+      "license": "Apache-2.0",
+      "evidence_url": "https://raw.githubusercontent.com/google/Accessibility-Test-Framework-for-Android/master/LICENSE",
+      "scope": "Repository license for Android testing; verify the exact release and its dependencies before use."
+    },
+    {
+      "id": "ark-ui",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/chakra-ui/ark/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "base-ui",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/mui/base-ui/master/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "chakra-ui",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "react-hook-form",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/react-hook-form/react-hook-form/master/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "tanstack-form",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/TanStack/form/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "tanstack-query",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/TanStack/query/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "zod",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/colinhacks/zod/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "recharts",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/recharts/recharts/main/LICENSE",
+      "scope": "Repository license; verify the exact package release and bundled dependencies before use."
+    },
+    {
+      "id": "leaflet",
+      "license": "BSD-2-Clause",
+      "evidence_url": "https://raw.githubusercontent.com/Leaflet/Leaflet/main/LICENSE",
+      "scope": "Repository license; map data, tiles, and third-party providers have separate terms."
+    },
+    {
+      "id": "vitest",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/vitest-dev/vitest/main/LICENSE",
+      "scope": "Repository license for development and test tooling; verify the exact release before use."
+    },
+    {
+      "id": "gitleaks",
+      "license": "MIT",
+      "evidence_url": "https://raw.githubusercontent.com/gitleaks/gitleaks/master/LICENSE",
+      "scope": "Repository license for development and security tooling; verify the exact release before use."
+    }
+  ]
+}

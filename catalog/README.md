@@ -1,25 +1,26 @@
 # Resource Registry v2
 
-`resources.json` is the agent-discoverable aggregate registry. It keeps the original 22 resource IDs and adds 150 research candidates across Android Compose, React/web UI, design systems and tokens, motion, forms/data, charts/maps, accessibility, testing, security, and agent tooling.
+`resources.json` is the active app-use registry. It contains 35 candidates whose upstream repository license was checked and permits commercial use under a permissive license. `research-archive.json` retains 137 leads that are not cleared for app use. The original 150 discovery leads remain in `candidate-seeds.json`, but seeds and archive records are not active candidates.
 
 ## Find a candidate
 
 1. Filter `resources` by `platforms` and one or more `capabilities`.
 2. Compare `alternatives`; treat `conflicts` as verified incompatibilities only when evidence supports that claim.
-3. Read `selection_guidance`, `status`, `integration_disposition`, and `license_risk_classification`.
-4. Inspect the exact upstream repository, package, version, license, notices, provenance, compatibility, and any service or commercial terms before proposing adoption.
+3. Read `app_use_status`, verified license URL and scope, `selection_guidance`, and `integration_disposition`.
+4. Before app integration, check the exact package and version, bundled assets, notices, transitive dependencies, provenance, compatibility, and any service or commercial terms.
 
-For a deterministic command-line shortlist, use `npm run catalog:select -- --platform android --capability android.compose.design_system`. Add `--query <text>` for a text search or `--format json` for machine-readable output. Restricted and mixed/commercial/source-available candidates are excluded by default; `--include-restricted` reveals them for manual review only and never approves adoption. Results are ordered by priority, then name and stable ID. Combine several filters with AND; capability tags are exact matches. Platform-prefixed capabilities (such as `web.forms`) cannot be paired with a different platform filter. Group defaults are not added to resources that already have resource-specific capability tags.
+For a deterministic shortlist, use `npm run catalog:select -- --platform android --capability android.compose.design_system`. Add `--query <text>` for a text search or `--format json` for machine-readable output. The selector reads only the active registry; it cannot show archived, copyleft, mixed, restricted, or unverified leads. Results are ordered by priority, then name and stable ID. Combine filters with AND; capability tags are exact matches. Platform-prefixed capabilities (such as `web.forms`) cannot be paired with a different platform filter.
 
-The registry is a research index, not a software bill of materials or approval list. All entries currently have unverified license, provenance, and compatibility evidence. Research-reported license signals are explicitly separate from verified upstream evidence. Automatic adoption is disabled for every entry.
+An active record has a verified repository-level permissive license, not legal clearance for a particular app release. Its exact package version, dependencies, assets, provenance, and compatibility still need review. `auto_adoption_allowed` remains false for every record. No third-party project was installed or copied into LL-PES.
 
 ## Updating
 
-- Add discovery leads to `candidate-seeds.json`; do not copy upstream source into this repository.
-- Run `npm run catalog:build` to deterministically aggregate seeds with the existing catalog.
+- Add discovery leads to `candidate-seeds.json`; they remain archived until reviewed.
+- Add a candidate to `app-use-allowlist.json` only after confirming its exact upstream permissive license and scope; copyleft is excluded until separately reviewed.
+- Run `npm run catalog:build` to deterministically regenerate the active registry and research archive.
 - Run `npm run catalog:validate` and `npm run test:contracts`.
 - Use `npm run catalog:select -- --help` for selector options.
-- Only change evidence statuses after recording the exact source URL, package/version scope, and review date. Do not mark a license verified from a search snippet, badge, or secondary list.
-- Commercial, source-available, mixed-license, hosted-service, and restricted signals must remain excluded from automatic adoption until reviewed for the specific package, use, and target app.
+- Record the exact license evidence URL, scope and review date. Do not mark a license verified from a search snippet, badge, or secondary list.
+- A license-screened candidate is still not automatically approved for adoption or Google Play distribution.
 
 The JSON Schema is `resource-registry.schema.json`. The validator uses Node's built-in libraries; no project installation is needed.
