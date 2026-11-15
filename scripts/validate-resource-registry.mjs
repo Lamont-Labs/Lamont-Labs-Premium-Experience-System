@@ -22,6 +22,15 @@ function resolvePointer(document, pointer) {
 }
 
 function checkSchema(value, rule, path, document, errors) {
+  const supportedKeywords = new Set([
+    "$schema", "$id", "$defs", "title", "description",
+    "$ref", "type", "const", "enum", "minLength", "pattern", "format", "minItems",
+    "uniqueItems", "items", "minProperties", "required", "propertyNames", "properties",
+    "additionalProperties"
+  ]);
+  for (const keyword of Object.keys(rule)) {
+    if (!supportedKeywords.has(keyword)) errors.push(`${path}: unsupported schema keyword ${keyword}`);
+  }
   if (rule.$ref) {
     const target = resolvePointer(document, rule.$ref);
     if (!target) errors.push(`${path}: unresolved schema reference ${rule.$ref}`);
@@ -39,7 +48,13 @@ function checkSchema(value, rule, path, document, errors) {
   if (typeof value === "string") {
     if (rule.minLength !== undefined && value.length < rule.minLength) errors.push(`${path}: string is too short`);
     if (rule.pattern && !new RegExp(rule.pattern).test(value)) errors.push(`${path}: string does not match ${rule.pattern}`);
-    if (rule.format === "date" && !/^\d{4}-\d{2}-\d{2}$/.test(value)) errors.push(`${path}: expected an ISO date`);
+    if (rule.format === "date") {
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+      const date = match && new Date(`${value}T00:00:00.000Z`);
+      if (!match || Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+        errors.push(`${path}: expected a valid ISO calendar date`);
+      }
+    }
   }
   if (Array.isArray(value)) {
     if (rule.minItems !== undefined && value.length < rule.minItems) errors.push(`${path}: requires at least ${rule.minItems} items`);
@@ -71,6 +86,7 @@ export function validateCatalog(catalog, schema) {
 
   const resources = catalog.resources;
   const byId = new Map();
+  const knownIds = new Set(resources.map(resource => resource.id));
   const urls = new Set();
   for (const resource of resources) {
     if (byId.has(resource.id)) errors.push(`Duplicate resource id: ${resource.id}`);
@@ -86,7 +102,9 @@ export function validateCatalog(catalog, schema) {
     }
     for (const relation of [...resource.alternatives, ...resource.conflicts]) {
       if (relation === resource.id) errors.push(`${resource.id}: cannot reference itself`);
-      if (!resources.some(candidate => candidate.id === relation)) errors.push(`${resource.id}: unknown related resource ${relation}`);
+      if (!knownIds.has(relation)) {
+        errors.push(`${resource.id}: unknown related resource ${relation}`);
+      }
     }
     if (resource.auto_adoption_allowed !== false) errors.push(`${resource.id}: automatic adoption must remain disabled`);
     if (resource.license_evidence.classification !== resource.license_risk_classification) {
@@ -110,12 +128,26 @@ export function validateCatalog(catalog, schema) {
     )) {
       errors.push(`${resource.id}: verified license needs the exact license, evidence URL, and review date`);
     }
+    if (resource.provenance_evidence.status === "verified" && (
+      !resource.provenance_evidence.evidence_url || !resource.provenance_evidence.checked_at
+    )) {
+      errors.push(`${resource.id}: verified provenance needs an evidence URL and review date`);
+    }
+    if (resource.compatibility_evidence.status === "verified" && (
+      resource.compatibility_evidence.checked_against.length === 0
+      || !resource.compatibility_evidence.checked_at
+    )) {
+      errors.push(`${resource.id}: verified compatibility needs a target and review date`);
+    }
     if (resource.status === "verified_candidate" && (
       resource.license_evidence.verification_status !== "verified"
       || resource.provenance_evidence.status !== "verified"
       || resource.compatibility_evidence.status !== "verified"
     )) {
       errors.push(`${resource.id}: verified_candidate requires license, provenance, and compatibility evidence`);
+    }
+    if (resource.status === "verified_candidate" && resource.integration_disposition === "excluded_from_automatic_adoption") {
+      errors.push(`${resource.id}: restricted candidates cannot be marked verified for adoption`);
     }
     if (resource.status === "new_candidate_unverified" && resource.source_origin === "existing_catalog") {
       errors.push(`${resource.id}: new candidate cannot claim existing-catalog origin`);

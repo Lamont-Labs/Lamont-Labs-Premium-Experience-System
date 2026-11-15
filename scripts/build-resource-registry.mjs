@@ -163,7 +163,7 @@ function fromSeed(resource, group) {
     mode: disposition === "reference_only" ? "reference" : disposition === "vendor_review_required" ? "candidate-vendor" : "dependency",
     priority: "P2",
     platforms: resource.platforms ?? group.platforms,
-    capabilities: [...new Set([...(group.capabilities ?? []), ...(resource.capabilities ?? [])])].sort(),
+    capabilities: [...new Set(resource.capabilities ?? group.capabilities ?? [])].sort(),
     integration_disposition: disposition,
     status: "new_candidate_unverified",
     source_origin: resource.source_origin ?? "public_github_discovery",

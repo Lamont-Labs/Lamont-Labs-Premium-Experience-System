@@ -6,6 +6,7 @@
   "scripts": {
     "catalog:build": "node scripts/build-resource-registry.mjs",
     "catalog:validate": "node scripts/validate-resource-registry.mjs",
+    "catalog:select": "node scripts/select-resources.mjs",
     "test:contracts": "node --test tests/web/*.test.mjs tests/catalog/*.test.mjs"
   }
 }

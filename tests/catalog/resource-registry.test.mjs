@@ -32,6 +32,14 @@ test("aggregated registry is deterministic and current with its candidate seeds"
   assert.match(output, /current and deterministic/);
 });
 
+test("resource-specific capability tags do not inherit unrelated group defaults", () => {
+  const apollo = catalog.resources.find(resource => resource.id === "apollo-client");
+  const chart = catalog.resources.find(resource => resource.id === "recharts");
+  assert.ok(!apollo.capabilities.includes("web.forms"));
+  assert.ok(!apollo.capabilities.includes("web.navigation"));
+  assert.ok(!chart.capabilities.includes("web.maps"));
+});
+
 test("registry v2 retains the original 22 resources and adds over 100 candidates", () => {
   const ids = new Set(catalog.resources.map(resource => resource.id));
   for (const id of legacyIds) {
@@ -106,6 +114,28 @@ test("validator rejects broken alternatives and unsupported adoption claims", ()
   const unsafeAdoption = structuredClone(catalog);
   unsafeAdoption.resources[0].auto_adoption_allowed = true;
   assert.ok(validateCatalog(unsafeAdoption, schema).some(error => error.includes("auto_adoption_allowed")));
+});
+
+test("validator rejects incomplete verified evidence and impossible calendar dates", () => {
+  const incompleteProvenance = structuredClone(catalog);
+  const provenanceCandidate = incompleteProvenance.resources[0];
+  provenanceCandidate.provenance_evidence = { status: "verified", evidence_url: null, checked_at: null };
+  assert.ok(validateCatalog(incompleteProvenance, schema).some(error => error.includes("verified provenance")));
+
+  const invalidDate = structuredClone(catalog);
+  const dateCandidate = invalidDate.resources[0];
+  dateCandidate.license_evidence = {
+    ...dateCandidate.license_evidence,
+    verification_status: "verified",
+    verified_upstream_license: "MIT",
+    evidence_url: dateCandidate.url,
+    checked_at: "2026-02-30"
+  };
+  assert.ok(validateCatalog(invalidDate, schema).some(error => error.includes("valid ISO calendar date")));
+
+  const unsupportedRule = structuredClone(schema);
+  unsupportedRule.properties.schema_version.unsupportedConstraint = true;
+  assert.ok(validateCatalog(catalog, unsupportedRule).some(error => error.includes("unsupported schema keyword")));
 });
 
 test("candidate seeds have unique stable IDs and canonical public GitHub links", () => {
